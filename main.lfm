@@ -1,0 +1,46 @@
+object fmMain: TfmMain
+  Left = 234
+  Height = 52
+  Top = 193
+  Width = 273
+  BorderStyle = bsNone
+  Caption = 'fmMain'
+  ClientHeight = 52
+  ClientWidth = 273
+  OnActivate = FormActivate
+  LCLVersion = '0.9.30'
+  object Panel1: TPanel
+    Left = 0
+    Height = 16
+    Top = 0
+    Width = 273
+    Align = alTop
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 0
+  end
+  object lbTime: TLabel
+    Left = 8
+    Height = 16
+    Top = 24
+    Width = 80
+    AutoSize = False
+    Caption = '25:88:92'
+    Font.Height = -15
+    Font.Name = 'Monospace'
+    ParentColor = False
+    ParentFont = False
+  end
+  object lbDate: TLabel
+    Left = 112
+    Height = 16
+    Top = 24
+    Width = 144
+    AutoSize = False
+    Caption = '34 дубабря 2011'
+    Font.Height = -15
+    Font.Name = 'Monospace'
+    ParentColor = False
+    ParentFont = False
+  end
+end
