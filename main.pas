@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, DateUtils,
+  Config,
   tlib,tstr,tcfg;
 
 {$i const.inc}
@@ -22,14 +23,17 @@ type
     procedure FormActivate(Sender: TObject);
   private
     { private declarations }
-    msMonthsFile : String;
+    msLocaleFolder : String;
     //***** Clock
-    masMonths : array[1..12] of String;
+    masMonths : array[1..ciMonthCount] of String;
+    masWeekDays : array[1..ciWeekDayCount] of String;
   public
     { public declarations }
 
     //procedure FormatDate;
-    procedure ReadConfig;
+    function ReadConfig : Boolean;
+    function ReadLocale : Boolean;
+
     procedure DisplayDate;
     procedure DisplayTime;
   end;
@@ -45,27 +49,50 @@ procedure TfmMain.FormActivate(Sender: TObject);
 begin
 
   OnActivate:=Nil;
-  ReadConfig;
+  ReadConfig; //
+  ReadLocale; //
   DisplayTime;
   DisplayDate;
 end;
 
 
-procedure TfmMain.ReadConfig;
+function TfmMain.ReadConfig : Boolean;
 var liIdx : Integer;
 begin
 
+  Result:=False;
+  if true then begin end;
   //***** Общие параметры
-  IniOpen(g_sProgrammFolder+'etc'+ccSlashChar+csIniFileName);
-  msMonthsFile:=IniReadString('main','monthsfile','etc'+ccSlashChar+'months_en.ini');
-  IniClose;
-
-  //***** Названия месяцев
-  IniOpen(g_sProgrammFolder+'etc'+ccSlashChar+msMonthsFile);
-  for liIdx:=1 to 12 do begin
-    masMonths[liIdx]:=IniReadString('main','month'+IntToStr(liIdx));
+  if IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName) then begin
+    msLocaleFolder:=IniReadString('main','locale',csEtcFolder+'en_US');
+    IniClose;
+    Slashit(msLocaleFolder);
+    Result:=True;
   end;
-  IniClose;
+
+end;
+
+
+function TfmMain.ReadLocale : Boolean;
+var liIdx : Integer;
+begin
+
+  Result:=False;
+  if IniOpen(g_sProgrammFolder+csLocalePath+msLocaleFolder+'main.ini') then begin
+
+    //***** Названия месяцев
+    for liIdx:=1 to ciMonthCount do begin
+      masMonths[liIdx]:=IniReadString('months','month'+IntToStr(liIdx));
+    end;
+
+    //***** Названия дней недели
+    for liIdx:=1 to ciWeekDayCount do begin
+      masMonths[liIdx]:=IniReadString('weekdays','weekday'+IntToStr(liIdx));
+    end;
+
+    IniClose;
+    Result:=True;
+  end;
 end;
 
 

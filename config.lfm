@@ -1,0 +1,648 @@
+object fmSetup: TfmSetup
+  Left = 228
+  Height = 272
+  Top = 445
+  Width = 521
+  BorderStyle = bsDialog
+  Caption = 'Настройки'
+  ClientHeight = 272
+  ClientWidth = 521
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '0.9.30'
+  object bbtOk: TBitBtn
+    Left = 424
+    Height = 25
+    Top = 24
+    Width = 89
+    Caption = 'Ок'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clGreen
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Style = [fsBold, fsItalic]
+    ModalResult = 1
+    ParentFont = False
+    TabOrder = 0
+  end
+  object bbtCancel: TBitBtn
+    Left = 424
+    Height = 25
+    Top = 88
+    Width = 89
+    Caption = 'Отмена'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clMaroon
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Style = [fsBold, fsItalic]
+    ModalResult = 2
+    ParentFont = False
+    TabOrder = 1
+  end
+  object tpcSetup: TPageControl
+    Left = 0
+    Height = 272
+    Top = 0
+    Width = 417
+    ActivePage = tbsLicense
+    Align = alLeft
+    TabIndex = 3
+    TabOrder = 2
+    object tbsCommon: TTabSheet
+      Caption = 'Окно'
+      ClientHeight = 243
+      ClientWidth = 413
+      object GroupBox4: TGroupBox
+        Left = 2
+        Height = 241
+        Top = 0
+        Width = 175
+        Caption = ' Установки   '
+        ClientHeight = 225
+        ClientWidth = 171
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clNavy
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = [fsBold, fsItalic]
+        ParentFont = False
+        TabOrder = 0
+        object Label3: TLabel
+          Left = 6
+          Height = 15
+          Top = 178
+          Width = 54
+          Caption = 'Границы'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentColor = False
+          ParentFont = False
+        end
+        object chbOnTop: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 2
+          Width = 129
+          Caption = 'Поверх всех окон'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 0
+        end
+        object chbCloseBtn: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 26
+          Width = 129
+          Caption = 'Кнопка закрытия'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 1
+        end
+        object chbTimerBtn: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 50
+          Width = 123
+          Caption = 'Кнопка таймера'
+          TabOrder = 2
+        end
+        object chbMinBtn: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 74
+          Width = 149
+          Caption = 'Кнопка минимизации'
+          TabOrder = 3
+        end
+        object chbTransparent: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 98
+          Width = 113
+          Caption = 'Прозрачность'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 4
+        end
+        object trbAlpha: TTrackBar
+          Left = 2
+          Height = 25
+          Top = 119
+          Width = 165
+          Frequency = 16
+          Max = 255
+          Position = 0
+          Enabled = False
+          TabOrder = 5
+        end
+        object chbStick: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 154
+          Width = 188
+          Caption = 'Прилипание к краям экрана'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 6
+        end
+        object edMargin: TEdit
+          Left = 70
+          Height = 24
+          Top = 175
+          Width = 81
+          TabOrder = 7
+          Text = '0'
+        end
+        object udMargin: TUpDown
+          Left = 151
+          Height = 24
+          Top = 175
+          Width = 16
+          Associate = edMargin
+          Min = 0
+          Position = 0
+          TabOrder = 8
+          Wrap = False
+        end
+        object bbtAutoStart: TBitBtn
+          Left = 1
+          Height = 21
+          Top = 202
+          Width = 166
+          Caption = 'В автозагрузку'
+          TabOrder = 9
+        end
+      end
+      object grbFill: TGroupBox
+        Left = 184
+        Height = 241
+        Top = 0
+        Width = 217
+        Caption = '                                                     '
+        ClientHeight = 225
+        ClientWidth = 213
+        Enabled = False
+        TabOrder = 1
+        object Bevel1: TBevel
+          Left = 142
+          Height = 67
+          Top = 2
+          Width = 67
+          Style = bsRaised
+        end
+        object imgBackground: TImage
+          Left = 143
+          Height = 65
+          Top = 3
+          Width = 65
+          Enabled = False
+        end
+        object lbxImages: TListBox
+          Left = 6
+          Height = 216
+          Top = 3
+          Width = 129
+          Enabled = False
+          ItemHeight = 0
+          TabOrder = 0
+          TopIndex = -1
+        end
+      end
+      object chbFill: TCheckBox
+        Left = 200
+        Height = 22
+        Top = 0
+        Width = 146
+        Caption = 'Заливка текстурой'
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clNavy
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = [fsBold, fsItalic]
+        ParentFont = False
+        TabOrder = 2
+      end
+    end
+    object tbsClock: TTabSheet
+      Caption = 'Часы/Дата'
+      ClientHeight = 243
+      ClientWidth = 413
+      ImageIndex = 2
+      object grbDateConfig: TGroupBox
+        Left = 216
+        Height = 85
+        Top = 4
+        Width = 193
+        Caption = '      '
+        ClientHeight = 69
+        ClientWidth = 189
+        Enabled = False
+        TabOrder = 3
+        object bbtDateColor: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 2
+          Width = 169
+          Caption = 'Выбрать цвет даты'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clPurple
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 0
+        end
+        object bbtDateFont: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 34
+          Width = 169
+          Caption = 'Выбрать шрифт даты'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 1
+        end
+      end
+      object grbClockConfig: TGroupBox
+        Left = 0
+        Height = 149
+        Top = 4
+        Width = 209
+        Caption = '                                               '
+        ClientHeight = 133
+        ClientWidth = 205
+        Enabled = False
+        TabOrder = 0
+        object chbSignal: TCheckBox
+          Left = 14
+          Height = 22
+          Top = 66
+          Width = 140
+          Caption = 'Сигнал каждый час'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 0
+        end
+        object bbtClockColor: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 2
+          Width = 193
+          Caption = 'Выбрать цвет часов'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clPurple
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 1
+        end
+        object bbtSelectWave: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 90
+          Width = 161
+          Caption = 'Сигнал часов'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clPurple
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 2
+        end
+        object bbtTestClockSnd: TBitBtn
+          Left = 174
+          Height = 25
+          Top = 90
+          Width = 25
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333333FFF3333F333333300033339333333337773F33733333330008033
+            933333333737F7F37333333307078733333933337337373F3337333077088803
+            33933337F37F337F3373333077088803393333F7337FF37F3733300777008803
+            9333377F33773F7F733307088808087333337F7F337F7F7F3FFF070777080873
+            99997F7F337F7F7F77770808880808733333737F337F737F3F33300888008803
+            93333773F377337F73F333308807880339333337F37F337F373F333088077803
+            339333373F73F37333733333087777333339333373F7F7F33F37333330807033
+            933333333737F73373F333333300033339333333337773333733
+          }
+          NumGlyphs = 2
+          TabOrder = 3
+        end
+        object bbtClockFont: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 34
+          Width = 193
+          Caption = 'Выбрать шрифт часов'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 4
+        end
+      end
+      object chbShowClock: TCheckBox
+        Left = 16
+        Height = 22
+        Top = 0
+        Width = 149
+        Caption = 'Индицировать часы'
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clNavy
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = [fsBold, fsItalic]
+        ParentFont = False
+        TabOrder = 1
+      end
+      object chbShowDate: TCheckBox
+        Left = 232
+        Height = 22
+        Top = 0
+        Width = 150
+        Caption = 'Индицировать дату'
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clNavy
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = [fsBold, fsItalic]
+        ParentFont = False
+        TabOrder = 2
+      end
+      object grbTimerConfig: TGroupBox
+        Left = 216
+        Height = 53
+        Top = 100
+        Width = 193
+        Caption = '   '
+        ClientHeight = 37
+        ClientWidth = 189
+        Enabled = False
+        TabOrder = 4
+        object bbtTimerSignal: TBitBtn
+          Left = 6
+          Height = 25
+          Top = 2
+          Width = 129
+          Caption = 'Сигнал таймера'
+          Enabled = False
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clPurple
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 0
+        end
+        object bbtTestTimerSnd: TBitBtn
+          Left = 142
+          Height = 25
+          Top = 2
+          Width = 25
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333333FFF3333F333333300033339333333337773F33733333330008033
+            933333333737F7F37333333307078733333933337337373F3337333077088803
+            33933337F37F337F3373333077088803393333F7337FF37F3733300777008803
+            9333377F33773F7F733307088808087333337F7F337F7F7F3FFF070777080873
+            99997F7F337F7F7F77770808880808733333737F337F737F3F33300888008803
+            93333773F377337F73F333308807880339333337F37F337F373F333088077803
+            339333373F73F37333733333087777333339333373F7F7F33F37333330807033
+            933333333737F73373F333333300033339333333337773333733
+          }
+          NumGlyphs = 2
+          TabOrder = 1
+        end
+      end
+      object chbUseTimer: TCheckBox
+        Left = 232
+        Height = 22
+        Top = 97
+        Width = 146
+        Caption = 'Разрешить таймер'
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clNavy
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = [fsBold, fsItalic]
+        ParentFont = False
+        TabOrder = 5
+      end
+    end
+    object tbsAbout: TTabSheet
+      Caption = 'О программе'
+      ClientHeight = 243
+      ClientWidth = 413
+      ImageIndex = 5
+      object Panel1: TPanel
+        Left = 0
+        Height = 241
+        Top = 0
+        Width = 409
+        BevelInner = bvRaised
+        BevelOuter = bvLowered
+        ClientHeight = 241
+        ClientWidth = 409
+        TabOrder = 0
+        object Label1: TLabel
+          Left = 30
+          Height = 33
+          Top = 70
+          Width = 345
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Tiny Clock'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -29
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsItalic]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label2: TLabel
+          Left = 30
+          Height = 17
+          Top = 110
+          Width = 345
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Автор программы: Пахоменков А. П.'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clPurple
+          Font.Height = -15
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsItalic]
+          ParentColor = False
+          ParentFont = False
+        end
+        object lblSite: TLabel
+          Cursor = crHandPoint
+          Left = 30
+          Height = 15
+          Top = 142
+          Width = 345
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Посетить сайт автора'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentColor = False
+          ParentFont = False
+        end
+        object lblEmail: TLabel
+          Cursor = crHandPoint
+          Left = 30
+          Height = 15
+          Top = 158
+          Width = 345
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Отправить e-mail'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentBidiMode = False
+          ParentColor = False
+          ParentFont = False
+        end
+      end
+    end
+    object tbsLicense: TTabSheet
+      Caption = 'Лицензия'
+      ClientHeight = 243
+      ClientWidth = 413
+      ImageIndex = 6
+      object meLicense: TMemo
+        Left = 0
+        Height = 243
+        Top = 0
+        Width = 413
+        Align = alClient
+        Font.CharSet = RUSSIAN_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Verdana'
+        Lines.Strings = (
+          ''
+        )
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssVertical
+        TabOrder = 0
+      end
+    end
+  end
+  object bbtApply: TBitBtn
+    Left = 424
+    Height = 25
+    Top = 56
+    Width = 89
+    Caption = 'Применить'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clNavy
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    TabOrder = 3
+  end
+  object ilBkgList: TImageList
+    Height = 64
+    Width = 64
+    left = 456
+    top = 128
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Звуковые файлы (*.wav)|*.wav|Все файлы (*.*)|*.*'
+    left = 488
+    top = 160
+  end
+  object dlgColor: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 424
+    top = 160
+  end
+  object dlgFontSelect: TFontDialog
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    MinFontSize = 0
+    MaxFontSize = 0
+    left = 456
+    top = 160
+  end
+end
