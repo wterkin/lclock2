@@ -1,7 +1,7 @@
 object fmSetup: TfmSetup
-  Left = 228
+  Left = 1101
   Height = 272
-  Top = 445
+  Top = 571
   Width = 521
   BorderStyle = bsDialog
   Caption = 'Настройки'
@@ -47,9 +47,9 @@ object fmSetup: TfmSetup
     Height = 272
     Top = 0
     Width = 417
-    ActivePage = tbsLicense
+    ActivePage = tbsCommon
     Align = alLeft
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 2
     object tbsCommon: TTabSheet
       Caption = 'Окно'

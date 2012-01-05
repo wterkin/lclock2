@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, DateUtils,
+  StdCtrls, Buttons, Menus, DateUtils,
   Config,
   tlib,tstr,tcfg;
 
@@ -21,11 +21,20 @@ type
     lbDate: TLabel;
     Panel1: TPanel;
     ClockTimer: TTimer;
-    TrayIcon1: TTrayIcon;
+    popMain: TPopupMenu;
+    SpeedButton1: TSpeedButton;
+    TrayIcon: TTrayIcon;
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure TrayIcon1Click(Sender: TObject);
-    procedure TrayIcon1DblClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure TrayIconClick(Sender: TObject);
+    procedure TrayIconDblClick(Sender: TObject);
   private
     { private declarations }
     msLocaleFolder : String;
@@ -43,16 +52,24 @@ type
     mwClockMinutes,
     mwClockSeconds,
     mwClockMSeconds : Word;
+
+    //***** Форма
+    mlFormerX,
+    mlFormerY       : LongInt;
+  FY: LongInt;
   public
     { public declarations }
 
     //procedure FormatDate;
-    function ReadConfig : Boolean;
-    function ReadLocale : Boolean;
+    function  readConfig : Boolean;
+    function  writeConfig : Boolean;
+    procedure setConfig;
+    procedure getConfig;
+    function  readLocale : Boolean;
 
-    procedure AskSystemDateAndTime;
-    procedure DisplayDate;
-    procedure DisplayTime;
+    procedure askSystemDateAndTime;
+    procedure displayDate;
+    procedure displayTime;
   end;
 
 var
@@ -74,15 +91,63 @@ begin
 end;
 
 
-procedure TfmMain.TrayIcon1Click(Sender: TObject);
+procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
 
-  TrayIcon1.BalloonHint:=msClockDateHint+LF+msClockTimeHint;
-  TrayIcon1.ShowBalloonHint;
+  WriteConfig;
 end;
 
 
-procedure TfmMain.TrayIcon1DblClick(Sender: TObject);
+procedure TfmMain.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+  {ifdef __WINDOWS__}
+  mlFormerX:=X;
+  mlFormerY:=Y;
+  Cursor:=crSizeAll;
+  {endif}
+end;
+
+
+procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+
+  {ifdef __WINDOWS__}
+  if MouseCapture then begin
+    Left:=Mouse.CursorPos.X-mlFormerX;
+    Top:=Mouse.CursorPos.Y-mlFormerY;
+  end;
+  {endif}
+end;
+
+
+procedure TfmMain.FormMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+  {ifdef __WINDOWS__}
+   Cursor:=crDefault;
+  {endif}
+end;
+
+
+procedure TfmMain.SpeedButton1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+
+procedure TfmMain.TrayIconClick(Sender: TObject);
+begin
+
+  TrayIcon.BalloonHint:=msClockDateHint+LF+msClockTimeHint;
+  TrayIcon.ShowBalloonHint;
+end;
+
+
+procedure TfmMain.TrayIconDblClick(Sender: TObject);
 begin
 
   if fmMain.Visible then
@@ -100,8 +165,8 @@ begin
   //***** Минуту еще не натикало?
   if mwClockSeconds<ciMaxSecond then begin
 
-    //DecodeTime(Time,m_wClockHours,m_wClockMinutes,m_wClockSeconds,m_wClockMSeconds);
     inc(mwClockSeconds);
+    DisplayTime;
     fmMain.Update;
   end else begin
 
@@ -137,24 +202,51 @@ begin
 end;
 
 
-function TfmMain.ReadConfig : Boolean;
+function TfmMain.readConfig : Boolean;
 var liIdx : Integer;
 begin
 
   Result:=False;
-  if true then begin end;
   //***** Общие параметры
   if IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName) then begin
+
     msLocaleFolder:=IniReadString('main','locale',csEtcFolder+'en_US');
     IniClose;
     Slashit(msLocaleFolder);
     Result:=True;
   end;
 
+  //***** Параметры окон
+  if Result and IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
+
+    IniReadForm(fmMain);
+    IniClose;
+    Result:=True;
+  end else begin
+
+    Result:=False;
+  end;
+
 end;
 
 
-function TfmMain.ReadLocale : Boolean;
+function TfmMain.writeConfig : Boolean;
+var liIdx : Integer;
+begin
+
+  Result:=False;
+  //***** Общие параметры
+
+  //***** Параметры окон
+  if IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
+    IniSaveForm(fmMain);
+    IniClose;
+    Result:=True;
+  end;
+end;
+
+
+function TfmMain.readLocale : Boolean;
 var liIdx : Integer;
 begin
 
@@ -177,7 +269,7 @@ begin
 end;
 
 
-procedure TfmMain.AskSystemDateAndTime;
+procedure TfmMain.askSystemDateAndTime;
 var ldtNow : TDateTime;
 begin
 
@@ -188,7 +280,7 @@ begin
 end;
 
 
-procedure TfmMain.DisplayDate;
+procedure TfmMain.displayDate;
 begin
 
   msClockDateHint:=AlignRight(IntToStr(mwClockDay),2,'0')+' '+
@@ -198,7 +290,7 @@ begin
 end;
 
 
-procedure TfmMain.DisplayTime;
+procedure TfmMain.displayTime;
 begin
 
   msClockTimeHint:=IntToStr(mwClockHours)+':'+
