@@ -12,6 +12,8 @@ object fmMain: TfmMain
   OnMouseDown = FormMouseDown
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
+  PopupMenu = popMain
+  Position = poDesktopCenter
   LCLVersion = '0.9.30'
   object Panel1: TPanel
     Left = 0
@@ -24,7 +26,7 @@ object fmMain: TfmMain
     ClientHeight = 16
     ClientWidth = 404
     TabOrder = 0
-    object SpeedButton1: TSpeedButton
+    object sbClose: TSpeedButton
       Left = 380
       Height = 12
       Top = 0
@@ -40,7 +42,7 @@ object fmMain: TfmMain
         D4FF0007B2FF00000000
       }
       NumGlyphs = 0
-      OnClick = SpeedButton1Click
+      OnClick = sbCloseClick
     end
   end
   object lbTime: TLabel
@@ -121,5 +123,10 @@ object fmMain: TfmMain
   object popMain: TPopupMenu
     left = 368
     top = 16
+    object miExit: TMenuItem
+      Caption = 'Выход'
+      ShortCut = 16465
+      OnClick = miExitClick
+    end
   end
 end

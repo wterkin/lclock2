@@ -19,10 +19,11 @@ type
   TfmMain = class(TForm)
     lbTime: TLabel;
     lbDate: TLabel;
+    miExit: TMenuItem;
     Panel1: TPanel;
     ClockTimer: TTimer;
     popMain: TPopupMenu;
-    SpeedButton1: TSpeedButton;
+    sbClose: TSpeedButton;
     TrayIcon: TTrayIcon;
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -32,7 +33,8 @@ type
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure miExitClick(Sender: TObject);
+    procedure sbCloseClick(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
   private
@@ -133,7 +135,13 @@ begin
 end;
 
 
-procedure TfmMain.SpeedButton1Click(Sender: TObject);
+procedure TfmMain.miExitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+
+procedure TfmMain.sbCloseClick(Sender: TObject);
 begin
   Close;
 end;
@@ -243,6 +251,16 @@ begin
     IniClose;
     Result:=True;
   end;
+end;
+
+procedure TfmMain.setConfig;
+begin
+
+end;
+
+procedure TfmMain.getConfig;
+begin
+
 end;
 
 
