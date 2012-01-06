@@ -3,6 +3,8 @@ const ciMonthCount          = 12;
       ciMaxSecond           = 59;
       ciMaxMinute           = 59;
       ciMaxHour             = 23;
+      ciMicroWidth          = 8;
+      ciMicroHeight         = 8;
 
 
       csIniFileName         = 'lclock2.ini';

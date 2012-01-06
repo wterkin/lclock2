@@ -6,9 +6,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, Menus, DateUtils,
+  StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage,
   Config,
-  tlib,tstr,tcfg;
+  tlib,tstr,tcfg,tlcl;
 
 {$i const.inc}
 
@@ -76,6 +76,7 @@ type
     procedure getConfig;
     function  readLocale : Boolean;
     function  readTheme : Boolean;
+    procedure applyTheme;
 
     procedure askSystemDateAndTime;
     procedure displayDate;
@@ -93,11 +94,14 @@ procedure TfmMain.FormActivate(Sender: TObject);
 begin
 
   OnActivate:=Nil;
-  ReadConfig; //
-  ReadLocale; //
-  AskSystemDateAndTime;
-  DisplayTime;
-  DisplayDate;
+  // Обработка ошибок!
+  readConfig; //
+  readLocale; //
+  readTheme;
+  applyTheme;
+  askSystemDateAndTime;
+  displayTime;
+  displayDate;
   //fmMain.
 end;
 
@@ -323,6 +327,14 @@ begin
             FileExists(msButtonOkGlyph) and
             FileExists(msButtonOkGlyph);
   end;
+end;
+
+
+procedure TfmMain.applyTheme;
+begin
+
+  if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
+    sbClose.Glyph.LoadFromFile(g_sProgrammFolder+msMicroCloseGlyph);
 end;
 
 
