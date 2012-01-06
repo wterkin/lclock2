@@ -39,13 +39,21 @@ type
     procedure TrayIconDblClick(Sender: TObject);
   private
     { private declarations }
-    msLocaleFolder : String;
+
+    //***** Локаль
+    msLocaleFolder      : String;
+
+    //***** Тема
+    msThemeFolder,
+    msMicroCloseGlyph,
+    msButtonOkGlyph,
+    msButtonCancelGlyph : String;
+
     //***** Clock
-    masMonths   : array[1..ciMonthCount] of String;
-    masWeekDays : array[1..ciWeekDayCount] of String;
+    masMonths       : array[1..ciMonthCount] of String;
+    masWeekDays     : array[1..ciWeekDayCount] of String;
     msClockTimeHint : String;
     msClockDateHint : String;
-
     mwClockYear,
     mwClockMonth,
     mwClockDay,
@@ -58,7 +66,6 @@ type
     //***** Форма
     mlFormerX,
     mlFormerY       : LongInt;
-  FY: LongInt;
   public
     { public declarations }
 
@@ -68,6 +75,7 @@ type
     procedure setConfig;
     procedure getConfig;
     function  readLocale : Boolean;
+    function  readTheme : Boolean;
 
     procedure askSystemDateAndTime;
     procedure displayDate;
@@ -90,6 +98,7 @@ begin
   AskSystemDateAndTime;
   DisplayTime;
   DisplayDate;
+  //fmMain.
 end;
 
 
@@ -218,9 +227,11 @@ begin
   //***** Общие параметры
   if IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName) then begin
 
-    msLocaleFolder:=IniReadString('main','locale',csEtcFolder+'en_US');
-    IniClose;
+    msLocaleFolder:=IniReadString('main','locale',csLocaleFolder+'en_US');
     Slashit(msLocaleFolder);
+    msThemeFolder:=IniReadString('main','theme',csThemeFolder+'main');
+    Slashit(msThemeFolder);
+    IniClose;
     Result:=True;
   end;
 
@@ -253,14 +264,16 @@ begin
   end;
 end;
 
+
 procedure TfmMain.setConfig;
 begin
-
+  //
 end;
+
 
 procedure TfmMain.getConfig;
 begin
-
+  //
 end;
 
 
@@ -269,7 +282,7 @@ var liIdx : Integer;
 begin
 
   Result:=False;
-  if IniOpen(g_sProgrammFolder+csLocalePath+msLocaleFolder+'main.ini') then begin
+  if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+'main.ini') then begin
 
     //***** Названия месяцев
     for liIdx:=1 to ciMonthCount do begin
@@ -283,6 +296,32 @@ begin
 
     IniClose;
     Result:=True;
+  end;
+end;
+
+
+function  TfmMain.readTheme : Boolean;
+var lsMicroPath,
+    lsButtonPath : String;
+begin
+
+  Result:=False;
+  if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+'theme.ini') then begin
+
+    //***** Глифы микрокнопок
+    lsMicroPath:=IniReadString(csMicroSection,'path',csDefaultMicroFolder);
+    SlashIt(lsMicroPath);
+    msMicroCloseGlyph:=lsMicroPath+IniReadString(csMicroSection,'close','red.png');
+
+    //***** Глифы обычных кнопок
+    lsButtonPath:=IniReadString(csButtonsSection,'path',csDefaultMicroFolder);
+    SlashIt(lsButtonPath);
+    msButtonOkGlyph:=lsButtonPath+IniReadString(csButtonsSection,'ok','dialog-ok-apply.png');
+    msButtonCancelGlyph:=lsButtonPath+IniReadString(csButtonsSection,'cancel','dialog-cancel.png');
+    IniClose;
+    Result:=FileExists(msMicroCloseGlyph) and
+            FileExists(msButtonOkGlyph) and
+            FileExists(msButtonOkGlyph);
   end;
 end;
 

@@ -195,55 +195,6 @@ object fmSetup: TfmSetup
           TabOrder = 9
         end
       end
-      object grbFill: TGroupBox
-        Left = 184
-        Height = 241
-        Top = 0
-        Width = 217
-        Caption = '                                                     '
-        ClientHeight = 225
-        ClientWidth = 213
-        Enabled = False
-        TabOrder = 1
-        object Bevel1: TBevel
-          Left = 142
-          Height = 67
-          Top = 2
-          Width = 67
-          Style = bsRaised
-        end
-        object imgBackground: TImage
-          Left = 143
-          Height = 65
-          Top = 3
-          Width = 65
-          Enabled = False
-        end
-        object lbxImages: TListBox
-          Left = 6
-          Height = 216
-          Top = 3
-          Width = 129
-          Enabled = False
-          ItemHeight = 0
-          TabOrder = 0
-          TopIndex = -1
-        end
-      end
-      object chbFill: TCheckBox
-        Left = 200
-        Height = 22
-        Top = 0
-        Width = 146
-        Caption = 'Заливка текстурой'
-        Font.CharSet = RUSSIAN_CHARSET
-        Font.Color = clNavy
-        Font.Height = -12
-        Font.Name = 'Arial'
-        Font.Style = [fsBold, fsItalic]
-        ParentFont = False
-        TabOrder = 2
-      end
     end
     object tbsClock: TTabSheet
       Caption = 'Часы/Дата'

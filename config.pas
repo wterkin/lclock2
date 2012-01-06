@@ -71,11 +71,6 @@ type
     bbtTimerSignal: TBitBtn;
     bbtTestTimerSnd: TBitBtn;
     chbUseTimer: TCheckBox;
-    grbFill: TGroupBox;
-    Bevel1: TBevel;
-    imgBackground: TImage;
-    lbxImages: TListBox;
-    chbFill: TCheckBox;
     chbCloseBtn: TCheckBox;
     chbTimerBtn: TCheckBox;
     chbMinBtn: TCheckBox;
@@ -121,9 +116,6 @@ implementation
 
 uses Main, Math,{timer,}Calendar{, list};
 
-{$ifndef __XML__}
-var g_oIniFile : TIniFile;
-{$endif}
 
 {$R *.lfm}
 
