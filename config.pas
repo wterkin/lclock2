@@ -35,9 +35,16 @@ const c_sSystemSectn     = 'SYSTEM';
 
 
 type
-  TfmSetup = class(TForm)
+
+  { TfmConfig }
+
+  TfmConfig = class(TForm)
+    bbtAutoStart: TBitBtn;
     bbtOk: TBitBtn;
     bbtCancel: TBitBtn;
+    edStickyMargin: TEdit;
+    GroupBox1: TGroupBox;
+    tsTheme: TTabSheet;
     tpcSetup: TPageControl;
     tbsCommon: TTabSheet;
     GroupBox4: TGroupBox;
@@ -76,11 +83,9 @@ type
     chbMinBtn: TCheckBox;
     chbTransparent: TCheckBox;
     trbAlpha: TTrackBar;
-    chbStick: TCheckBox;
-    Label3: TLabel;
-    edMargin: TEdit;
-    udMargin: TUpDown;
-    bbtAutoStart: TBitBtn;
+    chbStickyFlag: TCheckBox;
+    procedure bbtAutoStartClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -99,7 +104,7 @@ const        c_eCtlAlt         : TShiftState = [ssCtrl,ssAlt];
 
 
 var
-  fmSetup: TfmSetup;
+  fmConfig: TfmConfig;
 //  g_rConfig : TConfig;
   {
 function SerializeFont(p_oFont : TFont) : String;
@@ -115,6 +120,33 @@ implementation
 
 
 uses Main, Math,{timer,}Calendar{, list};
+
+{ TfmConfig }
+
+procedure TfmConfig.bbtAutoStartClick(Sender: TObject);
+var lsAutoRunFolder : String;
+begin
+
+  {$ifdef __WINDOWS__}
+  lsAutoRunFolder:=GetSystemFolder(CSIDL_STARTUP);
+  if not CreateLink(ParamStr(0),
+                    ExtractFilePath(ParamStr(0)),
+                    csProgramName+' '+csVersion,
+                    ParamStr(0),0,
+                    lsAutoRunFolder+'lclock.lnk') then begin
+    FatalError('Ошибка!',
+              ' Программу не удалось поместить в Автозапуск');
+
+  end;
+  {$endif}
+end;
+
+procedure TfmConfig.FormActivate(Sender: TObject);
+begin
+  {$ifdef __WINDOWS__}
+  bbtAutoStart.Enabled:=True;
+  {$endif}
+end;
 
 
 {$R *.lfm}

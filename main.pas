@@ -66,6 +66,10 @@ type
     //***** Форма
     mlFormerX,
     mlFormerY       : LongInt;
+
+    //***** Конфигурация
+    mblStickyFlag    : Boolean;
+    mblStickyMargin  : Integer;
   public
     { public declarations }
 
@@ -259,6 +263,11 @@ begin
 
   Result:=False;
   //***** Общие параметры
+  //IniOpen();
+
+  //***** Прилипание к краям экрана
+
+  //IniClose();
 
   //***** Параметры окон
   if IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
@@ -271,13 +280,21 @@ end;
 
 procedure TfmMain.setConfig;
 begin
-  //
+
+  //***** Прилипание к краям экрана
+  fmConfig.chbStickyFlag.Checked:=mblStickyFlag;
+  fmConfig.edStickyMargin.Text:=IntToStr(miStickyMargin);
 end;
 
 
 procedure TfmMain.getConfig;
 begin
-  //
+
+  //***** Прилипание к краям экрана
+  mblStickyFlag:=fmConfig.chbStickyFlag;
+  miStickyMargin:=StrToIntDef(fmConfig.edStickyMargin.Text,0);
+  if miStickyMargin<2 then
+    mblStickyFlag:=False;
 end;
 
 

@@ -18,3 +18,5 @@ const ciMonthCount          = 12;
       csDefaultMicroFolder  = 'pixmaps'+ccSlashChar+'micro'+ccSlashChar+'rounded'+ccSlashChar;
       csButtonsSection      = 'buttons';
       csDefaultButtonFolder = 'pixmaps'+ccSlashChar+'buttons'+ccSlashChar+'oxygen'+ccSlashChar;
+      csProgramName         = 'LClock';
+      csVersion             = '0.0.1';
