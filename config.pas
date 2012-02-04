@@ -42,9 +42,11 @@ type
     bbtAutoStart: TBitBtn;
     bbtOk: TBitBtn;
     bbtCancel: TBitBtn;
+    chbTransparent: TCheckBox;
     edStickyMargin: TEdit;
     GroupBox1: TGroupBox;
-    Label4: TLabel;
+    labStickyMargin: TLabel;
+    trbTransparent: TTrackBar;
     tsTheme: TTabSheet;
     tpcSetup: TPageControl;
     tbsCommon: TTabSheet;
@@ -82,8 +84,6 @@ type
     chbCloseBtn: TCheckBox;
     chbTimerBtn: TCheckBox;
     chbMinBtn: TCheckBox;
-    chbTransparent: TCheckBox;
-    trbAlpha: TTrackBar;
     chbStickyFlag: TCheckBox;
     udMargin: TUpDown;
     procedure bbtAutoStartClick(Sender: TObject);

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage,
+  StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage, LCLClasses,
   Config,
   tlib,tstr,tcfg,tlcl;
 
@@ -29,10 +29,15 @@ type
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure lbDateMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure lbTimeMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure pmiExitClick(Sender: TObject);
     procedure pmiSetupClick(Sender: TObject);
@@ -52,10 +57,10 @@ type
     msButtonCancelGlyph : String;
 
     //***** Clock
-    masMonths       : array[1..ciMonthCount] of String;
-    masWeekDays     : array[1..ciWeekDayCount] of String;
-    msClockTimeHint : String;
-    msClockDateHint : String;
+    masMonths          : array[1..ciMonthCount] of String;
+    masWeekDays        : array[1..ciWeekDayCount] of String;
+    msClockTimeHint    : String;
+    msClockDateHint    : String;
     mwClockYear,
     mwClockMonth,
     mwClockDay,
@@ -63,15 +68,18 @@ type
     mwClockHours,
     mwClockMinutes,
     mwClockSeconds,
-    mwClockMSeconds : Word;
+    mwClockMSeconds    : Word;
 
     //***** Форма
     mlFormerX,
-    mlFormerY       : LongInt;
+    mlFormerY          : LongInt;
+
 
     //***** Конфигурация
-    mblStickyFlag    : Boolean;
-    miStickyMargin  : Integer;
+    mblStickyFlag      : Boolean;
+    miStickyMargin     : Integer;
+    //mblTransparentFlag : Boolean;
+    //miTransparentValue : Integer;
   public
     { public declarations }
 
@@ -87,6 +95,8 @@ type
     procedure askSystemDateAndTime;
     procedure displayDate;
     procedure displayTime;
+    //procedure  localeComponent(poComp : TLCLComponent; psDefault : String = '');
+    //procedure  localeComponent(poComp : TControl; psDefault : String = '');
   end;
 
 var
@@ -120,13 +130,24 @@ begin
 end;
 
 
+procedure TfmMain.FormCreate(Sender: TObject);
+begin
+
+end;
+
+
 procedure TfmMain.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 
   {ifdef __WINDOWS__}
-  mlFormerX:=X;
-  mlFormerY:=Y;
+  if Sender is TLabel then begin
+    mlFormerX:=X;
+    mlFormerY:=Y+24;
+  end else begin
+    mlFormerX:=X;
+    mlFormerY:=Y;
+  end;
   Cursor:=crSizeAll;
   {endif}
 end;
@@ -135,21 +156,25 @@ end;
 procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
+  if (Sender is TLabel) and (Cursor=crSizeAll) then
+  begin
+    MouseCapture:=True;
+  end;
 
   {ifdef __WINDOWS__}
   if MouseCapture then begin
-    Left:=Mouse.CursorPos.X-mlFormerX;
-    Top:=Mouse.CursorPos.Y-mlFormerY;
+    fmMain.Left:=Mouse.CursorPos.X-mlFormerX;
+    fmMain.Top:=Mouse.CursorPos.Y-mlFormerY;
     if mblStickyFlag then begin
-      if Left<=miStickyMargin then
-        Left:=0;
-      if Left>=Screen.DesktopWidth-(Width+miStickyMargin) then
-        Left:=Pred(Screen.DesktopWidth-Width);
+      if fmMain.Left<=miStickyMargin then
+        fmMain.Left:=0;
+      if fmMain.Left>=Screen.DesktopWidth-(fmMain.Width+miStickyMargin) then
+        fmMain.Left:=Pred(Screen.DesktopWidth-fmMain.Width);
 
-      if Top<=miStickyMargin then
-        Top:=0;
-      if Top>=Screen.DesktopHeight-(Height+miStickyMargin) then
-        Top:=Pred(Screen.DesktopHeight-Height);
+      if fmMain.Top<=miStickyMargin then
+        fmMain.Top:=0;
+      if fmMain.Top>=Screen.DesktopHeight-(fmMain.Height+miStickyMargin) then
+        fmMain.Top:=Pred(Screen.DesktopHeight-fmMain.Height);
 
     end;
   end;
@@ -164,6 +189,26 @@ begin
   {ifdef __WINDOWS__}
    Cursor:=crDefault;
   {endif}
+end;
+
+
+procedure TfmMain.lbDateMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+  mlFormerX:=X+lbDate.Left;
+  mlFormerY:=Y+lbDate.Top;
+  Cursor:=crSizeAll;
+end;
+
+
+procedure TfmMain.lbTimeMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+  mlFormerX:=X+lbTime.Left;
+  mlFormerY:=Y+lbTime.Top;
+  Cursor:=crSizeAll;
 end;
 
 
@@ -266,6 +311,11 @@ begin
     //***** Прилипание к краям экрана
     mblStickyFlag:=IniReadBool(csConfigSection,csStickyFlag);
     miStickyMargin:=IniReadInt(csConfigSection,csStickyMargin);
+
+    //***** Прозрачность
+    Self.AlphaBlend:=IniReadBool(csConfigSection,csTransparentFlag);
+    Self.AlphaBlendValue:=IniReadInt(csConfigSection,csTransparentValue);
+
     IniClose;
     Result:=True;
   end;
@@ -295,6 +345,11 @@ begin
   //***** Прилипание к краям экрана
   IniWriteBool(csConfigSection,csStickyFlag,mblStickyFlag);
   IniWriteInt(csConfigSection,csStickyMargin,miStickyMargin);
+
+  //***** Прозрачность
+  IniWriteBool(csConfigSection,csTransparentFlag,AlphaBlend);
+  IniWriteInt(csConfigSection,csTransparentValue,AlphaBlendValue);
+
   IniClose();
 
   //***** Параметры окон
@@ -312,6 +367,10 @@ begin
   //***** Прилипание к краям экрана
   fmConfig.chbStickyFlag.Checked:=mblStickyFlag;
   fmConfig.edStickyMargin.Text:=IntToStr(miStickyMargin);
+
+  //***** Прозрачность
+  fmConfig.chbTransparent.Checked:=AlphaBlend;  //mblTransparentFlag;
+  fmConfig.trbTransparent.Position:=AlphaBlendValue; //miTransparentValue;
 end;
 
 
@@ -323,6 +382,10 @@ begin
   miStickyMargin:=StrToIntDef(fmConfig.edStickyMargin.Text,0);
   if miStickyMargin<2 then
     mblStickyFlag:=False;
+
+  //***** Прозрачность
+  Self.AlphaBlend:=fmConfig.chbTransparent.Checked;
+  Self.AlphaBlendValue:=fmConfig.trbTransparent.Position;
 end;
 
 
@@ -346,8 +409,18 @@ begin
     IniClose;
 
     if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+csFormsLocaleFilename) then begin
-      pmiExit.Caption:=IniReadString(Self.Name,csMainPopUpItemExit,'Exit');
-      pmiSetup.Caption:=IniReadString(Self.Name,csMainPopUpItemSetup,'Setup');
+      //localeComponent(fmMain.pmiExit,'*Exit*');
+      //localeComponent(fmMain.pmiSetup,'*Setup*');
+      //localeComponent(fmConfig.chbStickyFlag,'*Sticky edges*');
+      //localeComponent(fmConfig.labStickyMargin,'*Margin*');
+      //localeComponent(fmConfig.chbTransparent,'**');
+      //localeComponent(fmConfig,'');
+
+      pmiExit.Caption:=IniReadString(Self.Name,pmiExit.Name,'*Exit*');
+      pmiSetup.Caption:=IniReadString(Self.Name,pmiSetup.Name,'*Setup*');
+      fmConfig.chbStickyFlag.Caption:=IniReadString(fmConfig.Name,fmConfig.chbStickyFlag.Name,'*Sticky edges*');
+      fmConfig.labStickyMargin.Caption:=IniReadString(fmConfig.Name,fmConfig.labStickyMargin.Name,'*Margin*');
+      fmConfig.chbTransparent.Caption:=IniReadString(fmConfig.Name,fmConfig.chbTransparent.Name,'*Transparent*');
       IniClose;
       Result:=True;
     end;
@@ -419,6 +492,12 @@ begin
   lbTime.Caption:=msClockTimeHint;
 end;
 
+{
+procedure localeComponent(poComp : TLCLComponent; psDefault : String='');
+begin
 
+  //poComp.Caption:=IniReadString(poComp.Owner.Name,poComp.Name,psDefault);
+end;
+ }
 end.
 

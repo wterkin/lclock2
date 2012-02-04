@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 1081
+  Left = 1185
   Height = 58
-  Top = 684
+  Top = 736
   Width = 404
   BorderStyle = bsNone
   Caption = 'fmMain'
@@ -9,6 +9,7 @@ object fmMain: TfmMain
   ClientWidth = 404
   OnActivate = FormActivate
   OnClose = FormClose
+  OnCreate = FormCreate
   OnMouseDown = FormMouseDown
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
@@ -57,6 +58,9 @@ object fmMain: TfmMain
     Font.Name = 'Monospace'
     ParentColor = False
     ParentFont = False
+    OnMouseDown = lbTimeMouseDown
+    OnMouseMove = FormMouseMove
+    OnMouseUp = FormMouseUp
   end
   object lbDate: TLabel
     Left = 112
@@ -69,6 +73,9 @@ object fmMain: TfmMain
     Font.Name = 'Monospace'
     ParentColor = False
     ParentFont = False
+    OnMouseDown = lbDateMouseDown
+    OnMouseMove = FormMouseMove
+    OnMouseUp = FormMouseUp
   end
   object TrayIcon: TTrayIcon
     Icon.Data = {
