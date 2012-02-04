@@ -44,6 +44,7 @@ type
     bbtCancel: TBitBtn;
     edStickyMargin: TEdit;
     GroupBox1: TGroupBox;
+    Label4: TLabel;
     tsTheme: TTabSheet;
     tpcSetup: TPageControl;
     tbsCommon: TTabSheet;
@@ -84,6 +85,7 @@ type
     chbTransparent: TCheckBox;
     trbAlpha: TTrackBar;
     chbStickyFlag: TCheckBox;
+    udMargin: TUpDown;
     procedure bbtAutoStartClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
@@ -140,6 +142,7 @@ begin
   end;
   {$endif}
 end;
+
 
 procedure TfmConfig.FormActivate(Sender: TObject);
 begin

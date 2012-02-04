@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 1068
+  Left = 1081
   Height = 58
-  Top = 885
+  Top = 684
   Width = 404
   BorderStyle = bsNone
   Caption = 'fmMain'
@@ -124,10 +124,14 @@ object fmMain: TfmMain
   object popMain: TPopupMenu
     left = 368
     top = 16
-    object miExit: TMenuItem
+    object pmiSetup: TMenuItem
+      Caption = 'Настройка'
+      OnClick = pmiSetupClick
+    end
+    object pmiExit: TMenuItem
       Caption = 'Выход'
       ShortCut = 16465
-      OnClick = miExitClick
+      OnClick = pmiExitClick
     end
   end
 end

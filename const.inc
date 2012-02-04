@@ -9,8 +9,15 @@ const ciMonthCount          = 12;
 
       csIniFileName         = 'lclock2.ini';
       csWinIniFileName      = 'windows.ini';
+
       csEtcFolder           = 'etc'+ccSlashChar;
       csLocaleFolder        = 'locale'+ccSlashChar;
+      csConfigSection       = 'config';
+      csStickyFlag          = 'stickyflag';
+      csStickyMargin        = 'stickymargin';
+
+      csProgramName         = 'LClock';
+      csVersion             = '0.0.1';
 
       //***** Темы
       csThemeFolder         = 'themes'+ccSlashChar;
@@ -18,5 +25,9 @@ const ciMonthCount          = 12;
       csDefaultMicroFolder  = 'pixmaps'+ccSlashChar+'micro'+ccSlashChar+'rounded'+ccSlashChar;
       csButtonsSection      = 'buttons';
       csDefaultButtonFolder = 'pixmaps'+ccSlashChar+'buttons'+ccSlashChar+'oxygen'+ccSlashChar;
-      csProgramName         = 'LClock';
-      csVersion             = '0.0.1';
+
+      //***** Локаль
+      csMainLocaleFilename  = 'main.ini';
+      csFormsLocaleFilename = 'forms.ini';
+      csMainPopUpItemSetup  = 'PopUpItem_Config';
+      csMainPopUpItemExit   = 'PopUpItem_Exit';

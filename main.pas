@@ -19,7 +19,8 @@ type
   TfmMain = class(TForm)
     lbTime: TLabel;
     lbDate: TLabel;
-    miExit: TMenuItem;
+    pmiSetup: TMenuItem;
+    pmiExit: TMenuItem;
     Panel1: TPanel;
     ClockTimer: TTimer;
     popMain: TPopupMenu;
@@ -33,7 +34,8 @@ type
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure miExitClick(Sender: TObject);
+    procedure pmiExitClick(Sender: TObject);
+    procedure pmiSetupClick(Sender: TObject);
     procedure sbCloseClick(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
@@ -69,7 +71,7 @@ type
 
     //***** Конфигурация
     mblStickyFlag    : Boolean;
-    mblStickyMargin  : Integer;
+    miStickyMargin  : Integer;
   public
     { public declarations }
 
@@ -100,6 +102,7 @@ begin
   OnActivate:=Nil;
   // Обработка ошибок!
   readConfig; //
+  setConfig;
   readLocale; //
   readTheme;
   applyTheme;
@@ -137,6 +140,18 @@ begin
   if MouseCapture then begin
     Left:=Mouse.CursorPos.X-mlFormerX;
     Top:=Mouse.CursorPos.Y-mlFormerY;
+    if mblStickyFlag then begin
+      if Left<=miStickyMargin then
+        Left:=0;
+      if Left>=Screen.DesktopWidth-(Width+miStickyMargin) then
+        Left:=Pred(Screen.DesktopWidth-Width);
+
+      if Top<=miStickyMargin then
+        Top:=0;
+      if Top>=Screen.DesktopHeight-(Height+miStickyMargin) then
+        Top:=Pred(Screen.DesktopHeight-Height);
+
+    end;
   end;
   {endif}
 end;
@@ -152,9 +167,17 @@ begin
 end;
 
 
-procedure TfmMain.miExitClick(Sender: TObject);
+procedure TfmMain.pmiExitClick(Sender: TObject);
 begin
   Close;
+end;
+
+
+procedure TfmMain.pmiSetupClick(Sender: TObject);
+begin
+
+  fmConfig.ShowModal;
+  getConfig;
 end;
 
 
@@ -239,6 +262,10 @@ begin
     Slashit(msLocaleFolder);
     msThemeFolder:=IniReadString('main','theme',csThemeFolder+'main');
     Slashit(msThemeFolder);
+
+    //***** Прилипание к краям экрана
+    mblStickyFlag:=IniReadBool(csConfigSection,csStickyFlag);
+    miStickyMargin:=IniReadInt(csConfigSection,csStickyMargin);
     IniClose;
     Result:=True;
   end;
@@ -263,11 +290,12 @@ begin
 
   Result:=False;
   //***** Общие параметры
-  //IniOpen();
+  IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName);
 
   //***** Прилипание к краям экрана
-
-  //IniClose();
+  IniWriteBool(csConfigSection,csStickyFlag,mblStickyFlag);
+  IniWriteInt(csConfigSection,csStickyMargin,miStickyMargin);
+  IniClose();
 
   //***** Параметры окон
   if IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
@@ -291,7 +319,7 @@ procedure TfmMain.getConfig;
 begin
 
   //***** Прилипание к краям экрана
-  mblStickyFlag:=fmConfig.chbStickyFlag;
+  mblStickyFlag:=fmConfig.chbStickyFlag.Checked;
   miStickyMargin:=StrToIntDef(fmConfig.edStickyMargin.Text,0);
   if miStickyMargin<2 then
     mblStickyFlag:=False;
@@ -303,7 +331,7 @@ var liIdx : Integer;
 begin
 
   Result:=False;
-  if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+'main.ini') then begin
+  if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+csMainLocaleFilename) then begin
 
     //***** Названия месяцев
     for liIdx:=1 to ciMonthCount do begin
@@ -316,7 +344,13 @@ begin
     end;
 
     IniClose;
-    Result:=True;
+
+    if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+csFormsLocaleFilename) then begin
+      pmiExit.Caption:=IniReadString(Self.Name,csMainPopUpItemExit,'Exit');
+      pmiSetup.Caption:=IniReadString(Self.Name,csMainPopUpItemSetup,'Setup');
+      IniClose;
+      Result:=True;
+    end;
   end;
 end;
 

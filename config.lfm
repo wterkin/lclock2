@@ -1,7 +1,7 @@
 object fmConfig: TfmConfig
-  Left = 1101
+  Left = 1154
   Height = 272
-  Top = 571
+  Top = 162
   Width = 521
   BorderStyle = bsDialog
   Caption = 'Настройки'
@@ -427,11 +427,11 @@ object fmConfig: TfmConfig
           TabOrder = 2
           Text = '0'
         end
-        object udMargin1: TUpDown
+        object udMargin: TUpDown
           Left = 368
           Height = 20
           Top = 2
-          Width = 16
+          Width = 17
           Associate = edStickyMargin
           Min = 0
           Position = 0

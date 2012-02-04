@@ -15,7 +15,7 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TfmMain, fmMain);
-  //Application.CreateForm(TfmConfig, fmConfig);
+  Application.CreateForm(TfmConfig, fmConfig);
   Application.Run;
 end.
 
