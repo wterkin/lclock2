@@ -25,6 +25,7 @@ type
     ClockTimer: TTimer;
     popMain: TPopupMenu;
     sbClose: TSpeedButton;
+    sbMinimize: TSpeedButton;
     TrayIcon: TTrayIcon;
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -42,6 +43,7 @@ type
     procedure pmiExitClick(Sender: TObject);
     procedure pmiSetupClick(Sender: TObject);
     procedure sbCloseClick(Sender: TObject);
+    procedure sbMinimizeClick(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
   private
@@ -53,6 +55,7 @@ type
     //***** Тема
     msThemeFolder,
     msMicroCloseGlyph,
+    msMicroMinimizeGlyph,
     msButtonOkGlyph,
     msButtonCancelGlyph : String;
 
@@ -111,6 +114,7 @@ begin
 
   OnActivate:=Nil;
   // Обработка ошибок!
+  Hide;
   readConfig; //
   setConfig;
   readLocale; //
@@ -119,6 +123,7 @@ begin
   askSystemDateAndTime;
   displayTime;
   displayDate;
+  Show;
   //fmMain.
 end;
 
@@ -223,12 +228,20 @@ begin
 
   fmConfig.ShowModal;
   getConfig;
+  writeConfig;
 end;
 
 
 procedure TfmMain.sbCloseClick(Sender: TObject);
 begin
   Close;
+end;
+
+
+procedure TfmMain.sbMinimizeClick(Sender: TObject);
+begin
+
+  fmMain.Hide;
 end;
 
 
@@ -316,6 +329,9 @@ begin
     Self.AlphaBlend:=IniReadBool(csConfigSection,csTransparentFlag);
     Self.AlphaBlendValue:=IniReadInt(csConfigSection,csTransparentValue);
 
+    //***** Кнопка минимизации
+    sbMinimize.Visible:=IniReadBool(csConfigSection,csMinimizeBtnVisible);
+
     IniClose;
     Result:=True;
   end;
@@ -324,6 +340,7 @@ begin
   if Result and IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
 
     IniReadForm(fmMain);
+    IniReadForm(fmConfig);
     IniClose;
     Result:=True;
   end else begin
@@ -350,11 +367,15 @@ begin
   IniWriteBool(csConfigSection,csTransparentFlag,AlphaBlend);
   IniWriteInt(csConfigSection,csTransparentValue,AlphaBlendValue);
 
+  //***** Кнопка минимизации
+  IniWriteBool(csConfigSection,csMinimizeBtnVisible,sbMinimize.Visible);
+
   IniClose();
 
   //***** Параметры окон
   if IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
     IniSaveForm(fmMain);
+    IniSaveForm(fmConfig);
     IniClose;
     Result:=True;
   end;
@@ -371,6 +392,10 @@ begin
   //***** Прозрачность
   fmConfig.chbTransparent.Checked:=AlphaBlend;  //mblTransparentFlag;
   fmConfig.trbTransparent.Position:=AlphaBlendValue; //miTransparentValue;
+
+  //***** Кнопка минимизации
+  fmConfig.chbMinimizeBtnVisible.Checked:=sbMinimize.Visible;
+
 end;
 
 
@@ -386,6 +411,9 @@ begin
   //***** Прозрачность
   Self.AlphaBlend:=fmConfig.chbTransparent.Checked;
   Self.AlphaBlendValue:=fmConfig.trbTransparent.Position;
+
+  //***** Кнопка минимизации
+  sbMinimize.Visible:=fmConfig.chbMinimizeBtnVisible.Checked;
 end;
 
 
@@ -440,6 +468,7 @@ begin
     lsMicroPath:=IniReadString(csMicroSection,'path',csDefaultMicroFolder);
     SlashIt(lsMicroPath);
     msMicroCloseGlyph:=lsMicroPath+IniReadString(csMicroSection,'close','red.png');
+    msMicroMinimizeGlyph:=lsMicroPath+IniReadString(csMicroSection,'minimize','blue.png');
 
     //***** Глифы обычных кнопок
     lsButtonPath:=IniReadString(csButtonsSection,'path',csDefaultMicroFolder);
@@ -459,6 +488,9 @@ begin
 
   if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
     sbClose.Glyph.LoadFromFile(g_sProgrammFolder+msMicroCloseGlyph);
+
+  if sbMinimize.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroMinimizeGlyph)) then
+    sbMinimize.Glyph.LoadFromFile(g_sProgrammFolder+msMicroMinimizeGlyph);
 end;
 
 

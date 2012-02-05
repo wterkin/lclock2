@@ -16,7 +16,8 @@ const ciMonthCount          = 12;
       csStickyFlag          = 'stickyflag';
       csStickyMargin        = 'stickymargin';
       csTransparentFlag     = 'transparentflag';
-      csTransparentValue    = 'transparentValue';
+      csTransparentValue    = 'transparentvalue';
+      csMinimizeBtnVisible  = 'minimizevisibleflag';
 
       csProgramName         = 'LClock';
       csVersion             = '0.0.1';

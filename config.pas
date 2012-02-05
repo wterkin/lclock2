@@ -42,6 +42,7 @@ type
     bbtAutoStart: TBitBtn;
     bbtOk: TBitBtn;
     bbtCancel: TBitBtn;
+    chbMinimizeBtnVisible: TCheckBox;
     chbTransparent: TCheckBox;
     edStickyMargin: TEdit;
     GroupBox1: TGroupBox;
@@ -83,7 +84,6 @@ type
     chbUseTimer: TCheckBox;
     chbCloseBtn: TCheckBox;
     chbTimerBtn: TCheckBox;
-    chbMinBtn: TCheckBox;
     chbStickyFlag: TCheckBox;
     udMargin: TUpDown;
     procedure bbtAutoStartClick(Sender: TObject);

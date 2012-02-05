@@ -1,7 +1,7 @@
 object fmConfig: TfmConfig
-  Left = 1019
+  Left = 1010
   Height = 272
-  Top = 87
+  Top = 507
   Width = 521
   BorderStyle = bsDialog
   Caption = 'Настройки'
@@ -108,14 +108,6 @@ object fmConfig: TfmConfig
           Width = 125
           Caption = 'Кнопка таймера'
           TabOrder = 2
-        end
-        object chbMinBtn: TCheckBox
-          Left = 6
-          Height = 22
-          Top = 74
-          Width = 150
-          Caption = 'Кнопка минимизации'
-          TabOrder = 3
         end
       end
     end
@@ -350,10 +342,10 @@ object fmConfig: TfmConfig
       end
       object GroupBox1: TGroupBox
         Left = 7
-        Height = 72
+        Height = 80
         Top = 160
         Width = 401
-        ClientHeight = 70
+        ClientHeight = 78
         ClientWidth = 399
         TabOrder = 6
         object chbStickyFlag: TCheckBox
@@ -426,6 +418,19 @@ object fmConfig: TfmConfig
           Max = 255
           Position = 0
           TabOrder = 4
+        end
+        object chbMinimizeBtnVisible: TCheckBox
+          Left = 6
+          Height = 22
+          Top = 55
+          Width = 163
+          Caption = 'Кнопка минимизации'
+          Font.Color = clNavy
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 5
         end
       end
     end

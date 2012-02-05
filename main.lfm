@@ -14,7 +14,7 @@ object fmMain: TfmMain
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
   PopupMenu = popMain
-  Position = poDesktopCenter
+  Position = poOwnerFormCenter
   LCLVersion = '0.9.30'
   object Panel1: TPanel
     Left = 0
@@ -45,6 +45,25 @@ object fmMain: TfmMain
       }
       NumGlyphs = 0
       OnClick = sbCloseClick
+    end
+    object sbMinimize: TSpeedButton
+      Left = 360
+      Height = 12
+      Top = 0
+      Width = 16
+      Anchors = [akTop, akRight]
+      Glyph.Data = {
+        F6000000424DF600000000000000360000002800000008000000080000000100
+        180000000000C000000064000000640000000000000000000000FFFFFF074C04
+        074C04074C04074C04074C04074C04FFFFFF16E60C0F9908095E05095E05095E
+        05095E05095E05074C0416E60C14D10B0F99080B73060B73060B7306095E0507
+        4C0416E60C14D10B12BF0A0F99080D85070B7306095E05074C0416E60C14D10B
+        12BF0A10AB090F99080B7306095E05074C0416E60C14D10B12BF0A12BF0A12BF
+        0A0F9908095E05074C0416E60C14D10B14D10B14D10B14D10B14D10B0F990807
+        4C04FFFFFF16E60C16E60C16E60C16E60C16E60C16E60CFFFFFF
+      }
+      NumGlyphs = 0
+      OnClick = sbMinimizeClick
     end
   end
   object lbTime: TLabel
