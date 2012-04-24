@@ -5,8 +5,11 @@ const ciMonthCount          = 12;
       ciMaxHour             = 23;
       ciMicroWidth          = 8;
       ciMicroHeight         = 8;
-
-
+      ciNoTimeDateLeft      = 9;
+      {
+      ciNormalTimeWidth     = 80;
+      ciNormalDateLeft      = 112;
+      }
       csIniFileName         = 'lclock2.ini';
       csWinIniFileName      = 'windows.ini';
 
@@ -18,6 +21,9 @@ const ciMonthCount          = 12;
       csTransparentFlag     = 'transparentflag';
       csTransparentValue    = 'transparentvalue';
       csMinimizeBtnVisible  = 'minimizevisibleflag';
+      csCloseBtnVisible     = 'closevisibleflag';
+      csVisibleTimeFlag     = 'visibletimeflag';
+      csVisibleDateFlag     = 'visibledateflag';
 
       csProgramName         = 'LClock';
       csVersion             = '0.0.1';
@@ -34,3 +40,4 @@ const ciMonthCount          = 12;
       csFormsLocaleFilename = 'forms.ini';
       csMainPopUpItemSetup  = 'PopUpItem_Config';
       csMainPopUpItemExit   = 'PopUpItem_Exit';
+

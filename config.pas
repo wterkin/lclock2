@@ -42,6 +42,7 @@ type
     bbtAutoStart: TBitBtn;
     bbtOk: TBitBtn;
     bbtCancel: TBitBtn;
+    chbCloseBtnVisible: TCheckBox;
     chbMinimizeBtnVisible: TCheckBox;
     chbTransparent: TCheckBox;
     edStickyMargin: TEdit;
@@ -58,7 +59,7 @@ type
     chbSignal: TCheckBox;
     bbtClockColor: TBitBtn;
     bbtSelectWave: TBitBtn;
-    chbShowClock: TCheckBox;
+    chbShowTime: TCheckBox;
     bbtApply: TBitBtn;
     ilBkgList: TImageList;
     OpenDialog: TOpenDialog;
@@ -82,10 +83,10 @@ type
     bbtTimerSignal: TBitBtn;
     bbtTestTimerSnd: TBitBtn;
     chbUseTimer: TCheckBox;
-    chbCloseBtn: TCheckBox;
     chbTimerBtn: TCheckBox;
     chbStickyFlag: TCheckBox;
     udMargin: TUpDown;
+    procedure bbtApplyClick(Sender: TObject);
     procedure bbtAutoStartClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
@@ -141,6 +142,12 @@ begin
 
   end;
   {$endif}
+end;
+
+
+procedure TfmConfig.bbtApplyClick(Sender: TObject);
+begin
+  fmMain.getConfig;
 end;
 
 

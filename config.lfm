@@ -1,7 +1,7 @@
 object fmConfig: TfmConfig
-  Left = 1010
+  Left = 963
   Height = 272
-  Top = 507
+  Top = 514
   Width = 521
   BorderStyle = bsDialog
   Caption = 'Настройки'
@@ -87,27 +87,13 @@ object fmConfig: TfmConfig
           ParentFont = False
           TabOrder = 0
         end
-        object chbCloseBtn: TCheckBox
-          Left = 6
-          Height = 22
-          Top = 26
-          Width = 132
-          Caption = 'Кнопка закрытия'
-          Font.CharSet = RUSSIAN_CHARSET
-          Font.Color = clNavy
-          Font.Height = -12
-          Font.Name = 'Arial'
-          Font.Style = [fsBold, fsItalic]
-          ParentFont = False
-          TabOrder = 1
-        end
         object chbTimerBtn: TCheckBox
           Left = 6
           Height = 22
           Top = 50
           Width = 125
           Caption = 'Кнопка таймера'
-          TabOrder = 2
+          TabOrder = 1
         end
       end
     end
@@ -250,12 +236,12 @@ object fmConfig: TfmConfig
           TabOrder = 4
         end
       end
-      object chbShowClock: TCheckBox
+      object chbShowTime: TCheckBox
         Left = 16
         Height = 22
         Top = 0
-        Width = 148
-        Caption = 'Индицировать часы'
+        Width = 154
+        Caption = 'Индицировать время'
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clNavy
         Font.Height = -12
@@ -432,6 +418,20 @@ object fmConfig: TfmConfig
           ParentFont = False
           TabOrder = 5
         end
+        object chbCloseBtnVisible: TCheckBox
+          Left = 236
+          Height = 22
+          Top = 55
+          Width = 132
+          Caption = 'Кнопка закрытия'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clNavy
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = [fsBold, fsItalic]
+          ParentFont = False
+          TabOrder = 6
+        end
       end
     end
     object tsTheme: TTabSheet
@@ -459,7 +459,7 @@ object fmConfig: TfmConfig
           Width = 345
           Alignment = taCenter
           AutoSize = False
-          Caption = 'Tiny Clock'
+          Caption = 'Light Clock'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
           Font.Height = -29
@@ -528,9 +528,9 @@ object fmConfig: TfmConfig
       ImageIndex = 6
       object meLicense: TMemo
         Left = 0
-        Height = 243
+        Height = 247
         Top = 0
-        Width = 413
+        Width = 415
         Align = alClient
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clWindowText
@@ -557,6 +557,7 @@ object fmConfig: TfmConfig
     Font.Height = -12
     Font.Name = 'Arial'
     Font.Style = [fsBold, fsItalic]
+    OnClick = bbtApplyClick
     ParentFont = False
     TabOrder = 3
   end

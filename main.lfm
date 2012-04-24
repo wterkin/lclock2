@@ -82,7 +82,7 @@ object fmMain: TfmMain
     OnMouseUp = FormMouseUp
   end
   object lbDate: TLabel
-    Left = 112
+    Left = 96
     Height = 16
     Top = 24
     Width = 144

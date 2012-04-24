@@ -81,6 +81,11 @@ type
     //***** Конфигурация
     mblStickyFlag      : Boolean;
     miStickyMargin     : Integer;
+
+    miNormalTimeWidth  : Integer;
+    miNormalDateLeft   : Integer;
+    miNoTimeDateLeft   : Integer;
+
     //mblTransparentFlag : Boolean;
     //miTransparentValue : Integer;
   public
@@ -98,6 +103,8 @@ type
     procedure askSystemDateAndTime;
     procedure displayDate;
     procedure displayTime;
+    procedure getDateAndTimeDefaultPosition;
+    procedure adjustDateAndTimePosition;
     //procedure  localeComponent(poComp : TLCLComponent; psDefault : String = '');
     //procedure  localeComponent(poComp : TControl; psDefault : String = '');
   end;
@@ -115,6 +122,7 @@ begin
   OnActivate:=Nil;
   // Обработка ошибок!
   Hide;
+  getDateAndTimeDefaultPosition;
   readConfig; //
   setConfig;
   readLocale; //
@@ -332,6 +340,18 @@ begin
     //***** Кнопка минимизации
     sbMinimize.Visible:=IniReadBool(csConfigSection,csMinimizeBtnVisible);
 
+    //***** Кнопка закрытия
+    sbClose.Visible:=IniReadBool(csConfigSection,csCloseBtnVisible);
+
+    //***** Показывать время
+    lbTime.Visible:=IniReadBool(csConfigSection,csVisibleTimeFlag);
+
+    //***** Показывать дату
+    lbDate.Visible:=IniReadBool(csConfigSection,csVisibleDateFlag);
+
+    //***** Скорректируем позиции даты и времени
+    adjustDateAndTimePosition;
+
     IniClose;
     Result:=True;
   end;
@@ -370,6 +390,15 @@ begin
   //***** Кнопка минимизации
   IniWriteBool(csConfigSection,csMinimizeBtnVisible,sbMinimize.Visible);
 
+  //***** Кнопка закрытия
+  IniWriteBool(csConfigSection,csCloseBtnVisible,sbClose.Visible);
+
+  //***** Показывать время
+  IniWriteBool(csConfigSection,csVisibleTimeFlag,lbTime.Visible);
+
+  //***** Показывать дату
+  IniWriteBool(csConfigSection,csVisibleDateFlag,lbDate.Visible);
+
   IniClose();
 
   //***** Параметры окон
@@ -396,6 +425,15 @@ begin
   //***** Кнопка минимизации
   fmConfig.chbMinimizeBtnVisible.Checked:=sbMinimize.Visible;
 
+  //***** Кнопка закрытия
+  fmConfig.chbCloseBtnVisible.Checked:=sbClose.Visible;
+
+  //***** Показывать время
+  fmConfig.chbShowTime.Checked:=lbTime.Visible;
+
+  //***** Показывать дату
+  fmConfig.chbShowDate.Checked:=lbDate.Visible;
+
 end;
 
 
@@ -414,6 +452,19 @@ begin
 
   //***** Кнопка минимизации
   sbMinimize.Visible:=fmConfig.chbMinimizeBtnVisible.Checked;
+
+  //***** Кнопка закрытия
+  sbClose.Visible:=fmConfig.chbCloseBtnVisible.Checked;
+
+  //***** Показывать время
+  lbTime.Visible:=fmConfig.chbShowTime.Checked;
+
+  //***** Показывать дату
+  lbDate.Visible:=fmConfig.chbShowDate.Checked;
+
+  //***** Скорректируем позиции даты и времени
+  adjustDateAndTimePosition;
+
 end;
 
 
@@ -479,6 +530,30 @@ begin
     Result:=FileExists(msMicroCloseGlyph) and
             FileExists(msButtonOkGlyph) and
             FileExists(msButtonOkGlyph);
+  end;
+end;
+
+
+procedure TfmMain.getDateAndTimeDefaultPosition;
+begin
+
+  miNormalDateLeft:=lbDate.Left;
+  miNormalTimeWidth:=lbTime.Width;
+end;
+
+
+procedure TfmMain.adjustDateAndTimePosition;
+begin
+
+  if lbTime.Visible then begin
+
+    lbTime.Width:=miNormalTimeWidth;
+    lbDate.Left:=miNormalDateLeft;
+
+  end else begin
+
+    lbTime.Width:=1;
+    lbDate.Left:=ciNoTimeDateLeft;
   end;
 end;
 
