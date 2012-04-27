@@ -6,6 +6,9 @@ const ciMonthCount          = 12;
       ciMicroWidth          = 8;
       ciMicroHeight         = 8;
       ciNoTimeDateLeft      = 9;
+      ciDefaultTimeColor    = clNavy;
+      ciDefaultDateColor    = clGreen;
+
       {
       ciNormalTimeWidth     = 80;
       ciNormalDateLeft      = 112;
@@ -24,6 +27,13 @@ const ciMonthCount          = 12;
       csCloseBtnVisible     = 'closevisibleflag';
       csVisibleTimeFlag     = 'visibletimeflag';
       csVisibleDateFlag     = 'visibledateflag';
+      csTimeFontValue       = 'timefontvalue';
+      csDateFontValue       = 'datefontvalue';
+      csTimeColorValue      = 'timecolorvalue';
+      csDateColorValue      = 'datecolorvalue';
+
+      csDefaultTimeFont     = 'Verdana;1;-15;D;12;0';
+      csDefaultDateFont     = 'Verdana;1;-15;D;12;0';
 
       csProgramName         = 'LClock';
       csVersion             = '0.0.1';

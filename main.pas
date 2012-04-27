@@ -349,6 +349,19 @@ begin
     //***** Показывать дату
     lbDate.Visible:=IniReadBool(csConfigSection,csVisibleDateFlag);
 
+
+    //***** Шрифт времени
+    IniReadFont(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
+
+    //***** Шрифт даты
+    IniReadFont(csConfigSection,csDateFontValue,lbDate.Font);
+
+    //***** Цвет времени
+    lbTime.Font.Color:=IniReadInt(csConfigSection,csTimeColorValue,ciDefaultTimeColor);
+
+    //***** Цвет даты
+    lbDate.Font.Color:=IniReadInt(csConfigSection,csDateColorValue,ciDefaultDateColor);
+
     //***** Скорректируем позиции даты и времени
     adjustDateAndTimePosition;
 
@@ -399,6 +412,18 @@ begin
   //***** Показывать дату
   IniWriteBool(csConfigSection,csVisibleDateFlag,lbDate.Visible);
 
+  //***** Шрифт времени
+  IniWriteFont(csConfigSection,csTimeFontValue,lbTime.Font);
+
+  //***** Шрифт даты
+  IniWriteFont(csConfigSection,csDateFontValue,lbDate.Font);
+
+  //***** Цвет времени
+  IniWriteInt(csConfigSection,csTimeColorValue,lbTime.Font.Color);
+
+  //***** Цвет даты
+  IniWriteInt(csConfigSection,csDateColorValue,lbDate.Font.Color);
+
   IniClose();
 
   //***** Параметры окон
@@ -434,6 +459,18 @@ begin
   //***** Показывать дату
   fmConfig.chbShowDate.Checked:=lbDate.Visible;
 
+  //***** Шрифт времени
+  fmConfig.dlgTimeFont.Font.Assign(lbTime.Font);
+
+  //***** Шрифт даты
+  fmConfig.dlgDateFont.Font.Assign(lbDate.Font);
+
+  //***** Цвет времени
+  fmConfig.dlgTimeColor.Color:=lbTime.Font.Color;
+
+  //***** Цвет даты
+  fmConfig.dlgDateColor.Color:=lbDate.Font.Color;
+
 end;
 
 
@@ -461,6 +498,19 @@ begin
 
   //***** Показывать дату
   lbDate.Visible:=fmConfig.chbShowDate.Checked;
+
+  //***** Шрифт времени
+  lbTime.Font.Assign(fmConfig.dlgTimeFont.Font);
+
+  //***** Шрифт даты
+  lbDate.Font.Assign(fmConfig.dlgDateFont.Font);
+
+  //***** Цвет времени
+  lbTime.Font.Color:=fmConfig.dlgTimeColor.Color;
+
+  //***** Цвет даты
+  lbDate.Font.Color:=fmConfig.dlgDateColor.Color;
+
 
   //***** Скорректируем позиции даты и времени
   adjustDateAndTimePosition;

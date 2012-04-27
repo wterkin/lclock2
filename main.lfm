@@ -68,11 +68,12 @@ object fmMain: TfmMain
   end
   object lbTime: TLabel
     Left = 8
-    Height = 16
+    Height = 24
     Top = 24
     Width = 80
     AutoSize = False
     Caption = '25:88:92'
+    Font.Color = clNavy
     Font.Height = -15
     Font.Name = 'Monospace'
     ParentColor = False
@@ -83,15 +84,19 @@ object fmMain: TfmMain
   end
   object lbDate: TLabel
     Left = 96
-    Height = 16
+    Height = 24
     Top = 24
     Width = 144
+    Anchors = [akLeft]
     AutoSize = False
     Caption = '34 дубабря 2011'
+    Color = clBtnFace
+    Font.Color = clGreen
     Font.Height = -15
     Font.Name = 'Monospace'
     ParentColor = False
     ParentFont = False
+    Transparent = False
     OnMouseDown = lbDateMouseDown
     OnMouseMove = FormMouseMove
     OnMouseUp = FormMouseUp

@@ -40,34 +40,47 @@ type
 
   TfmConfig = class(TForm)
     bbtAutoStart: TBitBtn;
+    bbtClockColor: TBitBtn;
+    bbtClockFont: TBitBtn;
+    bbtDateColor: TBitBtn;
+    bbtDateFont: TBitBtn;
     bbtOk: TBitBtn;
     bbtCancel: TBitBtn;
+    bbtSelectWave: TBitBtn;
+    bbtTestClockSnd: TBitBtn;
+    bbtTestTimerSnd: TBitBtn;
+    bbtTimerSignal: TBitBtn;
     chbCloseBtnVisible: TCheckBox;
     chbMinimizeBtnVisible: TCheckBox;
+    chbOnTop: TCheckBox;
+    chbShowDate: TCheckBox;
+    chbShowTime: TCheckBox;
+    chbSignal: TCheckBox;
+    chbStickyFlag: TCheckBox;
+    chbTimerBtn: TCheckBox;
     chbTransparent: TCheckBox;
+    chbUseTimer: TCheckBox;
+    dlgDateColor: TColorDialog;
+    dlgDateFont: TFontDialog;
     edStickyMargin: TEdit;
+    grbClockConfig: TGroupBox;
+    grbDateConfig: TGroupBox;
+    grbTimerConfig: TGroupBox;
     GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox4: TGroupBox;
     labStickyMargin: TLabel;
+    TabSheet1: TTabSheet;
     trbTransparent: TTrackBar;
     tsTheme: TTabSheet;
     tpcSetup: TPageControl;
     tbsCommon: TTabSheet;
-    GroupBox4: TGroupBox;
-    chbOnTop: TCheckBox;
-    tbsClock: TTabSheet;
-    grbClockConfig: TGroupBox;
-    chbSignal: TCheckBox;
-    bbtClockColor: TBitBtn;
-    bbtSelectWave: TBitBtn;
-    chbShowTime: TCheckBox;
     bbtApply: TBitBtn;
     ilBkgList: TImageList;
     OpenDialog: TOpenDialog;
-    dlgColor: TColorDialog;
+    dlgTimeColor: TColorDialog;
     tbsAbout: TTabSheet;
-    bbtTestClockSnd: TBitBtn;
-    bbtClockFont: TBitBtn;
-    dlgFontSelect: TFontDialog;
+    dlgTimeFont: TFontDialog;
     tbsLicense: TTabSheet;
     meLicense: TMemo;
     Panel1: TPanel;
@@ -75,19 +88,13 @@ type
     Label2: TLabel;
     lblSite: TLabel;
     lblEmail: TLabel;
-    chbShowDate: TCheckBox;
-    grbDateConfig: TGroupBox;
-    bbtDateColor: TBitBtn;
-    bbtDateFont: TBitBtn;
-    grbTimerConfig: TGroupBox;
-    bbtTimerSignal: TBitBtn;
-    bbtTestTimerSnd: TBitBtn;
-    chbUseTimer: TCheckBox;
-    chbTimerBtn: TCheckBox;
-    chbStickyFlag: TCheckBox;
     udMargin: TUpDown;
     procedure bbtApplyClick(Sender: TObject);
     procedure bbtAutoStartClick(Sender: TObject);
+    procedure bbtClockColorClick(Sender: TObject);
+    procedure bbtClockFontClick(Sender: TObject);
+    procedure bbtDateColorClick(Sender: TObject);
+    procedure bbtDateFontClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
@@ -142,6 +149,26 @@ begin
 
   end;
   {$endif}
+end;
+
+procedure TfmConfig.bbtClockColorClick(Sender: TObject);
+begin
+  dlgTimeColor.Execute;
+end;
+
+procedure TfmConfig.bbtClockFontClick(Sender: TObject);
+begin
+  dlgTimeFont.Execute;
+end;
+
+procedure TfmConfig.bbtDateColorClick(Sender: TObject);
+begin
+  dlgDateColor.Execute;
+end;
+
+procedure TfmConfig.bbtDateFontClick(Sender: TObject);
+begin
+  dlgDateFont.Execute;
 end;
 
 
