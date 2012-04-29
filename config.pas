@@ -60,6 +60,7 @@ type
     chbTimerBtn: TCheckBox;
     chbTransparent: TCheckBox;
     chbUseTimer: TCheckBox;
+    cbThemeList: TComboBox;
     dlgDateColor: TColorDialog;
     dlgDateFont: TFontDialog;
     edStickyMargin: TEdit;
@@ -68,6 +69,7 @@ type
     grbTimerConfig: TGroupBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     labStickyMargin: TLabel;
     TabSheet1: TTabSheet;

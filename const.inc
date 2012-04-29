@@ -31,6 +31,7 @@ const ciMonthCount          = 12;
       csDateFontValue       = 'datefontvalue';
       csTimeColorValue      = 'timecolorvalue';
       csDateColorValue      = 'datecolorvalue';
+      csThemeNameValue      = 'themenamevalue';
 
       csDefaultTimeFont     = 'Verdana;1;-15;D;12;0';
       csDefaultDateFont     = 'Verdana;1;-15;D;12;0';
@@ -40,6 +41,7 @@ const ciMonthCount          = 12;
 
       //***** Темы
       csThemeFolder         = 'themes'+ccSlashChar;
+      csDefaultThemeName    = 'default.ini';
       csMicroSection        = 'micro';
       csDefaultMicroFolder  = 'pixmaps'+ccSlashChar+'micro'+ccSlashChar+'rounded'+ccSlashChar;
       csButtonsSection      = 'buttons';

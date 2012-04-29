@@ -54,8 +54,10 @@ type
 
     //***** Тема
     msThemeFolder,
+    msMicroBtnPath,
     msMicroCloseGlyph,
     msMicroMinimizeGlyph,
+    msButtonPath,
     msButtonOkGlyph,
     msButtonCancelGlyph : String;
 
@@ -86,6 +88,8 @@ type
     miNormalDateLeft   : Integer;
     miNoTimeDateLeft   : Integer;
 
+    msThemeName        : String;
+
     //mblTransparentFlag : Boolean;
     //miTransparentValue : Integer;
   public
@@ -98,6 +102,7 @@ type
     procedure getConfig;
     function  readLocale : Boolean;
     function  readTheme : Boolean;
+    function  writeTheme : Boolean;
     procedure applyTheme;
 
     procedure askSystemDateAndTime;
@@ -362,6 +367,10 @@ begin
     //***** Цвет даты
     lbDate.Font.Color:=IniReadInt(csConfigSection,csDateColorValue,ciDefaultDateColor);
 
+    //***** Выбранная тема
+    msThemeName:=IniReadString(csConfigSection,csThemeNameValue,csDefaultThemeName);
+
+
     //***** Скорректируем позиции даты и времени
     adjustDateAndTimePosition;
 
@@ -423,6 +432,9 @@ begin
 
   //***** Цвет даты
   IniWriteInt(csConfigSection,csDateColorValue,lbDate.Font.Color);
+
+  //***** Выбранная тема
+  IniWriteString(csConfigSection,csThemeNameValue,msThemeName);
 
   IniClose();
 
@@ -558,29 +570,61 @@ end;
 
 
 function  TfmMain.readTheme : Boolean;
+begin
+
+  Result:=False;
+  if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+msThemeName) then begin
+
+    //***** Глифы микрокнопок
+    msMicroBtnPath:=IniReadString(csMicroSection,'path',csDefaultMicroFolder);
+    SlashIt(msMicroBtnPath);
+    msMicroCloseGlyph:=IniReadString(csMicroSection,'close','red.png');
+    msMicroMinimizeGlyph:=IniReadString(csMicroSection,'minimize','blue.png');
+
+    //***** Глифы обычных кнопок
+    msButtonPath:=IniReadString(csButtonsSection,'path',csDefaultMicroFolder);
+    SlashIt(msButtonPath);
+    msButtonOkGlyph:=IniReadString(csButtonsSection,'ok','dialog-ok-apply.png');
+    msButtonCancelGlyph:=IniReadString(csButtonsSection,'cancel','dialog-cancel.png');
+    IniClose;
+    Result:=FileExists(g_sProgrammFolder+msMicroBtnPath+msMicroCloseGlyph) and
+            FileExists(g_sProgrammFolder+msMicroBtnPath+msMicroCloseGlyph) and
+            FileExists(g_sProgrammFolder+msButtonPath+msButtonOkGlyph) and
+            FileExists(g_sProgrammFolder+msButtonPath+msButtonOkGlyph);
+  end;
+end;
+
+
+function  TfmMain.writeTheme : Boolean;
 var lsMicroPath,
     lsButtonPath : String;
 begin
 
   Result:=False;
-  if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+'theme.ini') then begin
+  if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+msThemeName) then begin
 
     //***** Глифы микрокнопок
-    lsMicroPath:=IniReadString(csMicroSection,'path',csDefaultMicroFolder);
-    SlashIt(lsMicroPath);
-    msMicroCloseGlyph:=lsMicroPath+IniReadString(csMicroSection,'close','red.png');
-    msMicroMinimizeGlyph:=lsMicroPath+IniReadString(csMicroSection,'minimize','blue.png');
+    IniWriteString(csMicroSection,'close',msMicroCloseGlyph);
+    IniWriteString(csMicroSection,'minimize',msMicroMinimizeGlyph);
 
     //***** Глифы обычных кнопок
-    lsButtonPath:=IniReadString(csButtonsSection,'path',csDefaultMicroFolder);
-    SlashIt(lsButtonPath);
-    msButtonOkGlyph:=lsButtonPath+IniReadString(csButtonsSection,'ok','dialog-ok-apply.png');
-    msButtonCancelGlyph:=lsButtonPath+IniReadString(csButtonsSection,'cancel','dialog-cancel.png');
+    IniWriteString(csButtonsSection,'ok',msButtonOkGlyph);
+    IniWriteString(csButtonsSection,'cancel',msButtonCancelGlyph);
     IniClose;
-    Result:=FileExists(msMicroCloseGlyph) and
-            FileExists(msButtonOkGlyph) and
-            FileExists(msButtonOkGlyph);
+
+    Result:=True;
   end;
+end;
+
+
+procedure TfmMain.applyTheme;
+begin
+
+  if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
+    sbClose.Glyph.LoadFromFile(g_sProgrammFolder+msMicroBtnPath+msMicroCloseGlyph);
+
+  if sbMinimize.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroMinimizeGlyph)) then
+    sbMinimize.Glyph.LoadFromFile(g_sProgrammFolder+msMicroBtnPath+msMicroMinimizeGlyph);
 end;
 
 
@@ -605,17 +649,6 @@ begin
     lbTime.Width:=1;
     lbDate.Left:=ciNoTimeDateLeft;
   end;
-end;
-
-
-procedure TfmMain.applyTheme;
-begin
-
-  if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
-    sbClose.Glyph.LoadFromFile(g_sProgrammFolder+msMicroCloseGlyph);
-
-  if sbMinimize.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroMinimizeGlyph)) then
-    sbMinimize.Glyph.LoadFromFile(g_sProgrammFolder+msMicroMinimizeGlyph);
 end;
 
 
