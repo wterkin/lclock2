@@ -107,7 +107,7 @@ type
     procedure displayDate();
     procedure displayTime();
     procedure getDateAndTimeDefaultPosition();
-    procedure adjustDateAndTimePosition();
+    //procedure adjustDateAndTimePosition();
     //procedure  localeComponent(poComp : TLCLComponent; psDefault : String = '');
     //procedure  localeComponent(poComp : TControl; psDefault : String = '');
   end;
@@ -465,7 +465,7 @@ begin
   msThemeName:=loIniMgr.read(csConfigSection,csThemeNameValue,csDefaultThemeName);
 
   //***** Скорректируем позиции даты и времени
-  adjustDateAndTimePosition;
+  //adjustDateAndTimePosition;
 
   FreeAndNil(loIniMgr);
   Result:=True;
@@ -606,7 +606,7 @@ begin
   lbDate.Font.Color:=fmConfig.dlgDateColor.Color;
 
   //***** Скорректируем позиции даты и времени
-  adjustDateAndTimePosition;
+  //adjustDateAndTimePosition;
 end;
 
 
@@ -725,7 +725,7 @@ begin
   miNormalTimeWidth:=lbTime.Width;
 end;
 
-
+(*
 procedure TfmMain.adjustDateAndTimePosition();
 begin
 
@@ -741,7 +741,7 @@ begin
     lbDate.Left:=ciNoTimeDateLeft;
   end;
 end;
-
+*)
 
 procedure TfmMain.askSystemDateAndTime();
 var ldtNow : TDateTime;

@@ -1,14 +1,14 @@
 object fmMain: TfmMain
-  Left = 980
-  Height = 175
-  Top = 0
-  Width = 627
+  Left = 682
+  Height = 41
+  Top = 337
+  Width = 304
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'LClock'
-  ClientHeight = 175
-  ClientWidth = 627
-  Constraints.MinWidth = 280
+  ClientHeight = 41
+  ClientWidth = 304
+  Constraints.MinWidth = 304
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
@@ -17,12 +17,13 @@ object fmMain: TfmMain
   OnMouseUp = FormMouseUp
   PopupMenu = popMain
   Position = poDefault
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.6.0'
   object Bevel2: TBevel
-    Left = 88
+    Left = 90
     Height = 34
     Top = 3
     Width = 146
+    Anchors = [akTop, akRight]
   end
   object Bevel1: TBevel
     Left = 3
@@ -31,10 +32,10 @@ object fmMain: TfmMain
     Width = 85
   end
   object sbClose: TSpeedButton
-    Left = 606
-    Height = 12
-    Top = 4
-    Width = 16
+    Left = 269
+    Height = 31
+    Top = 5
+    Width = 32
     Anchors = [akTop, akRight]
     Glyph.Data = {
       36010000424D3601000000000000360000002800000008000000080000000100
@@ -51,10 +52,10 @@ object fmMain: TfmMain
     OnClick = sbCloseClick
   end
   object sbMinimize: TSpeedButton
-    Left = 586
-    Height = 12
-    Top = 4
-    Width = 16
+    Left = 237
+    Height = 31
+    Top = 5
+    Width = 32
     Anchors = [akTop, akRight]
     Glyph.Data = {
       F6000000424DF600000000000000360000002800000008000000080000000100
@@ -69,18 +70,19 @@ object fmMain: TfmMain
     OnClick = sbMinimizeClick
   end
   object lbDate: TLabel
-    Left = 96
+    Left = 94
     Height = 24
-    Top = 8
+    Top = 11
     Width = 138
     Alignment = taCenter
-    Anchors = [akTop]
+    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = '34 дубабря 2011'
     Color = clBtnFace
     Font.Color = clGreen
-    Font.Height = -15
+    Font.Height = -16
     Font.Name = 'Monospace'
+    ParentColor = False
     ParentFont = False
     Transparent = False
     OnMouseDown = lbDateMouseDown
@@ -90,13 +92,15 @@ object fmMain: TfmMain
   object lbTime: TLabel
     Left = 8
     Height = 24
-    Top = 8
+    Top = 11
     Width = 80
+    Alignment = taCenter
     AutoSize = False
     Caption = '25:88:92'
     Font.Color = clNavy
-    Font.Height = -15
+    Font.Height = -16
     Font.Name = 'Monospace'
+    ParentColor = False
     ParentFont = False
     OnMouseDown = lbTimeMouseDown
     OnMouseMove = FormMouseMove
