@@ -1,12 +1,14 @@
 object fmMain: TfmMain
-  Left = 1185
-  Height = 58
-  Top = 736
-  Width = 404
+  Left = 980
+  Height = 175
+  Top = 0
+  Width = 627
+  BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'fmMain'
-  ClientHeight = 58
-  ClientWidth = 404
+  Caption = 'LClock'
+  ClientHeight = 175
+  ClientWidth = 627
+  Constraints.MinWidth = 280
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
@@ -14,90 +16,89 @@ object fmMain: TfmMain
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
   PopupMenu = popMain
-  Position = poOwnerFormCenter
-  LCLVersion = '0.9.30'
-  object Panel1: TPanel
-    Left = 0
-    Height = 16
-    Top = 0
-    Width = 404
-    Align = alTop
-    BevelInner = bvRaised
-    BevelOuter = bvLowered
-    ClientHeight = 16
-    ClientWidth = 404
-    TabOrder = 0
-    object sbClose: TSpeedButton
-      Left = 380
-      Height = 12
-      Top = 0
-      Width = 16
-      Anchors = [akTop, akRight]
-      Glyph.Data = {
-        F6000000424DF600000000000000360000002800000008000000080000000100
-        180000000000C000000064000000640000000000000000000000FFFFFF074C04
-        074C04074C04074C04074C04074C04FFFFFF16E60C0F9908095E05095E05095E
-        05095E05095E05074C0416E60C14D10B0F99080B73060B73060B7306095E0507
-        4C0416E60C14D10B12BF0A0F99080D85070B7306095E05074C0416E60C14D10B
-        12BF0A10AB090F99080B7306095E05074C0416E60C14D10B12BF0A12BF0A12BF
-        0A0F9908095E05074C0416E60C14D10B14D10B14D10B14D10B14D10B0F990807
-        4C04FFFFFF16E60C16E60C16E60C16E60C16E60C16E60CFFFFFF
-      }
-      NumGlyphs = 0
-      OnClick = sbCloseClick
-    end
-    object sbMinimize: TSpeedButton
-      Left = 360
-      Height = 12
-      Top = 0
-      Width = 16
-      Anchors = [akTop, akRight]
-      Glyph.Data = {
-        F6000000424DF600000000000000360000002800000008000000080000000100
-        180000000000C000000064000000640000000000000000000000FFFFFF074C04
-        074C04074C04074C04074C04074C04FFFFFF16E60C0F9908095E05095E05095E
-        05095E05095E05074C0416E60C14D10B0F99080B73060B73060B7306095E0507
-        4C0416E60C14D10B12BF0A0F99080D85070B7306095E05074C0416E60C14D10B
-        12BF0A10AB090F99080B7306095E05074C0416E60C14D10B12BF0A12BF0A12BF
-        0A0F9908095E05074C0416E60C14D10B14D10B14D10B14D10B14D10B0F990807
-        4C04FFFFFF16E60C16E60C16E60C16E60C16E60C16E60CFFFFFF
-      }
-      NumGlyphs = 0
-      OnClick = sbMinimizeClick
-    end
+  Position = poDefault
+  LCLVersion = '2.2.0.4'
+  object Bevel2: TBevel
+    Left = 88
+    Height = 34
+    Top = 3
+    Width = 146
   end
-  object lbTime: TLabel
-    Left = 8
-    Height = 24
-    Top = 24
-    Width = 80
-    AutoSize = False
-    Caption = '25:88:92'
-    Font.Color = clNavy
-    Font.Height = -15
-    Font.Name = 'Monospace'
-    ParentColor = False
-    ParentFont = False
-    OnMouseDown = lbTimeMouseDown
-    OnMouseMove = FormMouseMove
-    OnMouseUp = FormMouseUp
+  object Bevel1: TBevel
+    Left = 3
+    Height = 34
+    Top = 3
+    Width = 85
+  end
+  object sbClose: TSpeedButton
+    Left = 606
+    Height = 12
+    Top = 4
+    Width = 16
+    Anchors = [akTop, akRight]
+    Glyph.Data = {
+      36010000424D3601000000000000360000002800000008000000080000000100
+      2000000000000001000064000000640000000000000000000000FFFFFFFF0B00
+      4CFF0B004CFF0B004CFF0B004CFF0B004CFF0B004CFFFFFFFFFF2200E6FF1600
+      99FF0E005EFF0E005EFF0E005EFF0E005EFF0E005EFF0B004CFF2200E6FF1F00
+      D1FF160099FF110073FF110073FF110073FF0E005EFF0B004CFF2200E6FF1F00
+      D1FF1C00BFFF160099FF130085FF110073FF0E005EFF0B004CFF2200E6FF1F00
+      D1FF1C00BFFF1900ABFF160099FF110073FF0E005EFF0B004CFF2200E6FF1F00
+      D1FF1C00BFFF1C00BFFF1C00BFFF160099FF0E005EFF0B004CFF2200E6FF1F00
+      D1FF1F00D1FF1F00D1FF1F00D1FF1F00D1FF160099FF0B004CFFFFFFFFFF2200
+      E6FF2200E6FF2200E6FF2200E6FF2200E6FF2200E6FFFFFFFFFF
+    }
+    OnClick = sbCloseClick
+  end
+  object sbMinimize: TSpeedButton
+    Left = 586
+    Height = 12
+    Top = 4
+    Width = 16
+    Anchors = [akTop, akRight]
+    Glyph.Data = {
+      F6000000424DF600000000000000360000002800000008000000080000000100
+      180000000000C000000064000000640000000000000000000000FFFFFF074C04
+      074C04074C04074C04074C04074C04FFFFFF16E60C0F9908095E05095E05095E
+      05095E05095E05074C0416E60C14D10B0F99080B73060B73060B7306095E0507
+      4C0416E60C14D10B12BF0A0F99080D85070B7306095E05074C0416E60C14D10B
+      12BF0A10AB090F99080B7306095E05074C0416E60C14D10B12BF0A12BF0A12BF
+      0A0F9908095E05074C0416E60C14D10B14D10B14D10B14D10B14D10B0F990807
+      4C04FFFFFF16E60C16E60C16E60C16E60C16E60C16E60CFFFFFF
+    }
+    OnClick = sbMinimizeClick
   end
   object lbDate: TLabel
     Left = 96
     Height = 24
-    Top = 24
-    Width = 144
-    Anchors = [akLeft]
+    Top = 8
+    Width = 138
+    Alignment = taCenter
+    Anchors = [akTop]
     AutoSize = False
     Caption = '34 дубабря 2011'
     Color = clBtnFace
     Font.Color = clGreen
     Font.Height = -15
     Font.Name = 'Monospace'
-    ParentColor = False
     ParentFont = False
     Transparent = False
     OnMouseDown = lbDateMouseDown
+    OnMouseMove = FormMouseMove
+    OnMouseUp = FormMouseUp
+  end
+  object lbTime: TLabel
+    Left = 8
+    Height = 24
+    Top = 8
+    Width = 80
+    AutoSize = False
+    Caption = '25:88:92'
+    Font.Color = clNavy
+    Font.Height = -15
+    Font.Name = 'Monospace'
+    ParentFont = False
+    OnMouseDown = lbTimeMouseDown
     OnMouseMove = FormMouseMove
     OnMouseUp = FormMouseUp
   end
@@ -144,17 +145,17 @@ object fmMain: TfmMain
     Visible = True
     OnClick = TrayIconClick
     OnDblClick = TrayIconDblClick
-    left = 256
-    top = 16
+    Left = 16
+    Top = 48
   end
   object ClockTimer: TTimer
     OnTimer = ClockTimerTimer
-    left = 312
-    top = 16
+    Left = 80
+    Top = 48
   end
   object popMain: TPopupMenu
-    left = 368
-    top = 16
+    Left = 168
+    Top = 48
     object pmiSetup: TMenuItem
       Caption = 'Настройка'
       OnClick = pmiSetupClick

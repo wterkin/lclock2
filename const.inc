@@ -16,9 +16,10 @@ const ciMonthCount          = 12;
       csIniFileName         = 'lclock2.ini';
       csWinIniFileName      = 'windows.ini';
 
-      csEtcFolder           = 'etc'+ccSlashChar;
-      csLocaleFolder        = 'locale'+ccSlashChar;
+      csEtcFolder           = 'etc'+DirectorySeparator;
+      csLocaleFolder        = 'locale'+DirectorySeparator;
       csConfigSection       = 'config';
+      csMainSection         = 'main';
       csStickyFlag          = 'stickyflag';
       csStickyMargin        = 'stickymargin';
       csTransparentFlag     = 'transparentflag';
@@ -40,12 +41,12 @@ const ciMonthCount          = 12;
       csVersion             = '0.0.1';
 
       //***** Темы
-      csThemeFolder         = 'themes'+ccSlashChar;
+      csThemeFolder         = 'themes'+DirectorySeparator;
       csDefaultThemeName    = 'default.ini';
       csMicroSection        = 'micro';
-      csDefaultMicroFolder  = 'pixmaps'+ccSlashChar+'micro'+ccSlashChar+'rounded'+ccSlashChar;
+      csDefaultMicroFolder  = 'pixmaps'+DirectorySeparator+'micro'+DirectorySeparator+'rounded'+DirectorySeparator;
       csButtonsSection      = 'buttons';
-      csDefaultButtonFolder = 'pixmaps'+ccSlashChar+'buttons'+ccSlashChar+'oxygen'+ccSlashChar;
+      csDefaultButtonFolder = 'pixmaps'+DirectorySeparator+'buttons'+DirectorySeparator+'oxygen'+DirectorySeparator;
 
       //***** Локаль
       csMainLocaleFilename  = 'main.ini';

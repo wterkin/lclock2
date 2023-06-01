@@ -8,18 +8,20 @@ interface
 
 uses
   {$ifdef __WINDOWS__}
-  Windows, MMSystem,ActiveX,ShlObj,ComObj,
+  Windows, MMSystem,ActiveX,ShlObj,ComObj
+  {$else}
   {$endif}
 
-  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ImgList, Buttons, ExtCtrls, IniFiles,
+  {, Messages}
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ComCtrls, ImgList, Buttons, ExtCtrls{, IniFiles},
 
 
   {$ifdef __WINDOWS__}
   twin,
   {$endif}
 
-  tlib,tstr,tcfg
+  {tlib,}tstr {,tini}
 
    {Shedules};
 
@@ -131,12 +133,12 @@ function ReadConfigFromXml : Boolean;
 implementation
 
 
-uses Main, Math,{timer,}Calendar{, list};
+uses Main {, Math}{, timer}{, Calendar}{, list};
 
 { TfmConfig }
 
 procedure TfmConfig.bbtAutoStartClick(Sender: TObject);
-var lsAutoRunFolder : String;
+var {%H-}lsAutoRunFolder : String;
 begin
 
   {$ifdef __WINDOWS__}
@@ -192,4 +194,4 @@ end;
 
 
 
-end.
+end.

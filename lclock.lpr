@@ -1,4 +1,4 @@
-program lclock2;
+program lclock;
 
 {$mode objfpc}{$H+}
 

@@ -12,7 +12,7 @@ object fmConfig: TfmConfig
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnActivate = FormActivate
-  LCLVersion = '0.9.30'
+  LCLVersion = '2.2.0.4'
   object bbtOk: TBitBtn
     Left = 424
     Height = 25
@@ -56,22 +56,22 @@ object fmConfig: TfmConfig
     TabOrder = 2
     object tbsCommon: TTabSheet
       Caption = 'Общие '
-      ClientHeight = 295
-      ClientWidth = 415
+      ClientHeight = 290
+      ClientWidth = 413
       object GroupBox1: TGroupBox
         Left = 7
         Height = 120
         Top = 8
         Width = 401
         Caption = ' Окно '
-        ClientHeight = 105
-        ClientWidth = 399
+        ClientHeight = 116
+        ClientWidth = 397
         TabOrder = 0
         object chbStickyFlag: TCheckBox
           Left = 7
-          Height = 22
+          Height = 23
           Top = 2
-          Width = 191
+          Width = 212
           Caption = 'Прилипание к краям экрана'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
@@ -83,7 +83,7 @@ object fmConfig: TfmConfig
         end
         object labStickyMargin: TLabel
           Left = 223
-          Height = 15
+          Height = 14
           Top = 7
           Width = 53
           Caption = 'Границы'
@@ -92,12 +92,11 @@ object fmConfig: TfmConfig
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
-          ParentColor = False
           ParentFont = False
         end
         object edStickyMargin: TEdit
           Left = 287
-          Height = 20
+          Height = 24
           Top = 2
           Width = 81
           TabOrder = 1
@@ -105,20 +104,19 @@ object fmConfig: TfmConfig
         end
         object udMargin: TUpDown
           Left = 368
-          Height = 20
+          Height = 24
           Top = 2
           Width = 17
           Associate = edStickyMargin
           Min = 0
           Position = 0
           TabOrder = 2
-          Wrap = False
         end
         object chbTransparent: TCheckBox
           Left = 7
-          Height = 22
+          Height = 23
           Top = 29
-          Width = 113
+          Width = 117
           Caption = 'Прозрачность'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
@@ -130,7 +128,7 @@ object fmConfig: TfmConfig
         end
         object trbTransparent: TTrackBar
           Left = 220
-          Height = 36
+          Height = 41
           Top = 29
           Width = 165
           Frequency = 16
@@ -140,9 +138,9 @@ object fmConfig: TfmConfig
         end
         object chbMinimizeBtnVisible: TCheckBox
           Left = 6
-          Height = 22
+          Height = 23
           Top = 55
-          Width = 163
+          Width = 171
           Caption = 'Кнопка минимизации'
           Font.Color = clNavy
           Font.Height = -13
@@ -173,8 +171,8 @@ object fmConfig: TfmConfig
         Top = 136
         Width = 401
         Caption = ' Индикация '
-        ClientHeight = 39
-        ClientWidth = 399
+        ClientHeight = 36
+        ClientWidth = 397
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Sans'
@@ -182,9 +180,9 @@ object fmConfig: TfmConfig
         TabOrder = 1
         object chbShowTime: TCheckBox
           Left = 7
-          Height = 22
+          Height = 23
           Top = 7
-          Width = 154
+          Width = 166
           Caption = 'Индицировать время'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
@@ -196,9 +194,9 @@ object fmConfig: TfmConfig
         end
         object chbShowDate: TCheckBox
           Left = 236
-          Height = 22
+          Height = 23
           Top = 7
-          Width = 149
+          Width = 154
           Caption = 'Индицировать дату'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
@@ -212,16 +210,16 @@ object fmConfig: TfmConfig
     end
     object tsTheme: TTabSheet
       Caption = 'Тема'
-      ClientHeight = 295
-      ClientWidth = 415
+      ClientHeight = 290
+      ClientWidth = 413
       object grbClockConfig: TGroupBox
         Left = 15
         Height = 80
         Top = 88
         Width = 209
         Caption = 'Время '
-        ClientHeight = 62
-        ClientWidth = 207
+        ClientHeight = 60
+        ClientWidth = 205
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Sans'
@@ -264,8 +262,8 @@ object fmConfig: TfmConfig
         Top = 168
         Width = 209
         Caption = ' Дата '
-        ClientHeight = 67
-        ClientWidth = 207
+        ClientHeight = 65
+        ClientWidth = 205
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Sans'
@@ -308,8 +306,8 @@ object fmConfig: TfmConfig
         Top = 8
         Width = 392
         Caption = ' Тема '
-        ClientHeight = 46
-        ClientWidth = 390
+        ClientHeight = 44
+        ClientWidth = 388
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Verdana'
@@ -317,7 +315,7 @@ object fmConfig: TfmConfig
         TabOrder = 2
         object cbThemeList: TComboBox
           Left = 14
-          Height = 25
+          Height = 30
           Top = 7
           Width = 233
           ItemHeight = 0
@@ -328,8 +326,8 @@ object fmConfig: TfmConfig
     end
     object tbsAbout: TTabSheet
       Caption = 'О программе'
-      ClientHeight = 295
-      ClientWidth = 415
+      ClientHeight = 290
+      ClientWidth = 413
       ImageIndex = 5
       object Panel1: TPanel
         Left = 0
@@ -354,7 +352,6 @@ object fmConfig: TfmConfig
           Font.Height = -29
           Font.Name = 'Times New Roman'
           Font.Style = [fsItalic]
-          ParentColor = False
           ParentFont = False
         end
         object Label2: TLabel
@@ -370,7 +367,6 @@ object fmConfig: TfmConfig
           Font.Height = -15
           Font.Name = 'Times New Roman'
           Font.Style = [fsItalic]
-          ParentColor = False
           ParentFont = False
         end
         object lblSite: TLabel
@@ -387,7 +383,6 @@ object fmConfig: TfmConfig
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
-          ParentColor = False
           ParentFont = False
         end
         object lblEmail: TLabel
@@ -405,21 +400,20 @@ object fmConfig: TfmConfig
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentBidiMode = False
-          ParentColor = False
           ParentFont = False
         end
       end
     end
     object tbsLicense: TTabSheet
       Caption = 'Лицензия'
-      ClientHeight = 295
-      ClientWidth = 415
+      ClientHeight = 290
+      ClientWidth = 413
       ImageIndex = 6
       object meLicense: TMemo
         Left = 0
-        Height = 295
+        Height = 290
         Top = 0
-        Width = 415
+        Width = 413
         Align = alClient
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clWindowText
@@ -436,16 +430,16 @@ object fmConfig: TfmConfig
     end
     object TabSheet1: TTabSheet
       Caption = 'TabSheet1'
-      ClientHeight = 295
-      ClientWidth = 415
+      ClientHeight = 290
+      ClientWidth = 413
       object GroupBox4: TGroupBox
         Left = 223
         Height = 241
         Top = 32
         Width = 175
         Caption = ' Установки   '
-        ClientHeight = 226
-        ClientWidth = 173
+        ClientHeight = 220
+        ClientWidth = 171
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clNavy
         Font.Height = -12
@@ -455,9 +449,9 @@ object fmConfig: TfmConfig
         TabOrder = 0
         object chbOnTop: TCheckBox
           Left = 6
-          Height = 22
+          Height = 23
           Top = 2
-          Width = 128
+          Width = 139
           Caption = 'Поверх всех окон'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clNavy
@@ -469,9 +463,9 @@ object fmConfig: TfmConfig
         end
         object chbTimerBtn: TCheckBox
           Left = 6
-          Height = 22
+          Height = 23
           Top = 50
-          Width = 125
+          Width = 131
           Caption = 'Кнопка таймера'
           TabOrder = 1
         end
@@ -482,8 +476,8 @@ object fmConfig: TfmConfig
         Top = 160
         Width = 193
         Caption = '   '
-        ClientHeight = 38
-        ClientWidth = 191
+        ClientHeight = 32
+        ClientWidth = 189
         Enabled = False
         TabOrder = 1
         object bbtTimerSignal: TBitBtn
@@ -526,9 +520,9 @@ object fmConfig: TfmConfig
       end
       object chbUseTimer: TCheckBox
         Left = 23
-        Height = 22
+        Height = 23
         Top = 128
-        Width = 146
+        Width = 149
         Caption = 'Разрешить таймер'
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clNavy
@@ -577,9 +571,9 @@ object fmConfig: TfmConfig
       end
       object chbSignal: TCheckBox
         Left = 14
-        Height = 22
+        Height = 23
         Top = 66
-        Width = 143
+        Width = 151
         Caption = 'Сигнал каждый час'
         Enabled = False
         Font.CharSet = RUSSIAN_CHARSET
@@ -620,13 +614,13 @@ object fmConfig: TfmConfig
   object ilBkgList: TImageList
     Height = 64
     Width = 64
-    left = 456
-    top = 128
+    Left = 456
+    Top = 128
   end
   object OpenDialog: TOpenDialog
     Filter = 'Звуковые файлы (*.wav)|*.wav|Все файлы (*.*)|*.*'
-    left = 488
-    top = 160
+    Left = 488
+    Top = 160
   end
   object dlgTimeColor: TColorDialog
     Color = clBlack
@@ -652,8 +646,8 @@ object fmConfig: TfmConfig
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 232
-    top = 120
+    Left = 232
+    Top = 120
   end
   object dlgTimeFont: TFontDialog
     Font.Color = clWindowText
@@ -661,8 +655,8 @@ object fmConfig: TfmConfig
     Font.Name = 'MS Sans Serif'
     MinFontSize = 0
     MaxFontSize = 0
-    left = 232
-    top = 152
+    Left = 232
+    Top = 152
   end
   object dlgDateColor: TColorDialog
     Color = clBlack
@@ -688,8 +682,8 @@ object fmConfig: TfmConfig
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 232
-    top = 208
+    Left = 232
+    Top = 208
   end
   object dlgDateFont: TFontDialog
     Font.Color = clWindowText
@@ -697,7 +691,7 @@ object fmConfig: TfmConfig
     Font.Name = 'MS Sans Serif'
     MinFontSize = 0
     MaxFontSize = 0
-    left = 232
-    top = 240
+    Left = 232
+    Top = 240
   end
 end

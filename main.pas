@@ -6,22 +6,24 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage, LCLClasses,
-  Config,
-  tlib,tstr,tcfg,tlcl;
+  StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage, // LCLClasses,
+  ComCtrls, Config
+  {, tlib}, tapp, tstr, tini;
 
 {$i const.inc}
 
 type
 
   { TfmMain }
+  TMonthsArray = array[1..ciMonthCount] of String;
 
   TfmMain = class(TForm)
-    lbTime: TLabel;
-    lbDate: TLabel;
+    Bevel1 : TBevel;
+    Bevel2 : TBevel;
+    lbDate : TLabel;
+    lbTime : TLabel;
     pmiSetup: TMenuItem;
     pmiExit: TMenuItem;
-    Panel1: TPanel;
     ClockTimer: TTimer;
     popMain: TPopupMenu;
     sbClose: TSpeedButton;
@@ -29,17 +31,17 @@ type
     TrayIcon: TTrayIcon;
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
-    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure lbDateMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure lbTimeMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure FormClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
+    procedure FormCreate(Sender : TObject);
+    procedure FormMouseDown(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseMove(Sender: TObject; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
+    procedure FormMouseUp(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
+    procedure lbDateMouseDown(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; X, Y: Integer);
+    procedure lbTimeMouseDown(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; X, Y: Integer);
     procedure pmiExitClick(Sender: TObject);
     procedure pmiSetupClick(Sender: TObject);
     procedure sbCloseClick(Sender: TObject);
@@ -56,14 +58,14 @@ type
     msThemeFolder,
     msMicroBtnPath,
     msMicroCloseGlyph,
-    msMicroMinimizeGlyph,
-    msButtonPath,
-    msButtonOkGlyph,
-    msButtonCancelGlyph : String;
+    msMicroMinimizeGlyph : String;
+    //msButtonPath,
+    //msButtonOkGlyph
+    //msButtonCancelGlyph
 
     //***** Clock
-    masMonths          : array[1..ciMonthCount] of String;
-    masWeekDays        : array[1..ciWeekDayCount] of String;
+    masMonths          : TMonthsArray;
+    //masWeekDays        : array[1..ciWeekDayCount] of String;
     msClockTimeHint    : String;
     msClockDateHint    : String;
     mwClockYear,
@@ -79,15 +81,12 @@ type
     mlFormerX,
     mlFormerY          : LongInt;
 
-
     //***** Конфигурация
     mblStickyFlag      : Boolean;
     miStickyMargin     : Integer;
-
     miNormalTimeWidth  : Integer;
     miNormalDateLeft   : Integer;
-    miNoTimeDateLeft   : Integer;
-
+    //miNoTimeDateLeft   : Integer;
     msThemeName        : String;
 
     //mblTransparentFlag : Boolean;
@@ -96,24 +95,31 @@ type
     { public declarations }
 
     //procedure FormatDate;
-    function  readConfig : Boolean;
-    function  writeConfig : Boolean;
-    procedure setConfig;
-    procedure getConfig;
-    function  readLocale : Boolean;
-    function  readTheme : Boolean;
-    function  writeTheme : Boolean;
-    procedure applyTheme;
-
-    procedure askSystemDateAndTime;
-    procedure displayDate;
-    procedure displayTime;
-    procedure getDateAndTimeDefaultPosition;
-    procedure adjustDateAndTimePosition;
+    function  readConfig() : Boolean;
+    function  writeConfig() : Boolean;
+    procedure setConfig();
+    procedure getConfig();
+    function  readLocale() : Boolean;
+    function  readTheme() : Boolean;
+    function  writeTheme() : Boolean;
+    procedure applyTheme();
+    procedure askSystemDateAndTime();
+    procedure displayDate();
+    procedure displayTime();
+    procedure getDateAndTimeDefaultPosition();
+    procedure adjustDateAndTimePosition();
     //procedure  localeComponent(poComp : TLCLComponent; psDefault : String = '');
     //procedure  localeComponent(poComp : TControl; psDefault : String = '');
   end;
 
+const
+         ciAlLeft          = 1;
+         ciAlRight         = 2;
+         ciAlCenter        = 3;
+         casMonthsArray : TMonthsArray = ('января', 'февраля', 'марта',
+                                          'апреля', 'мая', 'июня',
+                                          'июля', 'августа', 'сентября',
+                                          'октября', 'ноября', 'декабря');
 var
   fmMain: TfmMain;
 
@@ -121,36 +127,97 @@ implementation
 
 {$R *.lfm}
 
+
+function alignFill(psLine : String; piWidth : Integer; piAlign : Integer = ciAlLeft; pcFill : Char = ' ') : String;
+var lsLine  : String;
+    liWdt,
+    liLen,
+    liHalf  : Integer;
+begin
+
+  lsLine:=Trim(psLine);
+  liLen:=Length(lsLine);
+  if liLen>0 then begin
+
+    if liLen<piWidth then begin
+
+      liWdt:=piWidth-liLen;
+      if piAlign=ciAlCenter then begin
+
+        liHalf:=liWdt div 2;
+        lsLine:=StringOfChar(pcFill,liHalf)+lsLine+StringOfChar(pcFill,liWdt-liHalf);
+      end else begin
+
+        if piAlign=ciAlLeft then begin
+
+          lsLine:=lsLine+StringOfChar(pcFill,liWdt);
+        end else begin
+
+          if piAlign=ciAlRight then begin
+
+            lsLine:=StringOfChar(pcFill,liWdt)+lsLine;
+          end;
+        end
+      end;
+    end;
+  end else begin
+
+    lsLine:=StringOfChar(#32,piWidth);
+  end;
+  Result:=lsLine;
+end;
+
+
+function alignRight(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
+begin
+
+  Result:=AlignFill(psLine,piWidth,ciAlRight,pcFill);
+end;
+
+
+function alignLeft(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
+begin
+
+  Result:=AlignFill(psLine,piWidth,ciAlLeft,pcFill);
+end;
+
+
+function alignCenter(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
+begin
+
+  Result:=AlignFill(psLine,piWidth,ciAlCenter,pcFill);
+end;
+
+
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
 
   OnActivate:=Nil;
-  // Обработка ошибок!
+  // ToDo: Обработка ошибок!
   Hide;
-  getDateAndTimeDefaultPosition;
-  readConfig; //
+  // ### getDateAndTimeDefaultPosition;
+  readConfig;
   setConfig;
-  readLocale; //
+  // readLocale; // пока закомментим
   readTheme;
   applyTheme;
   askSystemDateAndTime;
   displayTime;
   displayDate;
   Show;
-  //fmMain.
 end;
 
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
 
-  WriteConfig;
+  writeConfig;
 end;
 
-
-procedure TfmMain.FormCreate(Sender: TObject);
+procedure TfmMain.FormCreate(Sender : TObject);
 begin
 
+  masMonths := casMonthsArray;
 end;
 
 
@@ -159,14 +226,18 @@ procedure TfmMain.FormMouseDown(Sender: TObject; Button: TMouseButton;
 begin
 
   {ifdef __WINDOWS__}
-  if Sender is TLabel then begin
+  if Sender is TLabel then
+  begin
+
     mlFormerX:=X;
     mlFormerY:=Y+24;
-  end else begin
+  end else
+  begin
+
     mlFormerX:=X;
     mlFormerY:=Y;
   end;
-  Cursor:=crSizeAll;
+  Cursor := crSizeAll;
   {endif}
 end;
 
@@ -176,24 +247,38 @@ procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
 begin
   if (Sender is TLabel) and (Cursor=crSizeAll) then
   begin
+
     MouseCapture:=True;
   end;
-
   {ifdef __WINDOWS__}
-  if MouseCapture then begin
+  if MouseCapture then
+  begin
+
     fmMain.Left:=Mouse.CursorPos.X-mlFormerX;
     fmMain.Top:=Mouse.CursorPos.Y-mlFormerY;
-    if mblStickyFlag then begin
+    if mblStickyFlag then
+    begin
+
       if fmMain.Left<=miStickyMargin then
+      begin
+
         fmMain.Left:=0;
+      end;
       if fmMain.Left>=Screen.DesktopWidth-(fmMain.Width+miStickyMargin) then
+      begin
+
         fmMain.Left:=Pred(Screen.DesktopWidth-fmMain.Width);
-
+      end;
       if fmMain.Top<=miStickyMargin then
-        fmMain.Top:=0;
-      if fmMain.Top>=Screen.DesktopHeight-(fmMain.Height+miStickyMargin) then
-        fmMain.Top:=Pred(Screen.DesktopHeight-fmMain.Height);
+      begin
 
+        fmMain.Top:=0;
+      end;
+      if fmMain.Top>=Screen.DesktopHeight-(fmMain.Height+miStickyMargin) then
+      begin
+
+        fmMain.Top:=Pred(Screen.DesktopHeight-fmMain.Height);
+      end;
     end;
   end;
   {endif}
@@ -232,6 +317,7 @@ end;
 
 procedure TfmMain.pmiExitClick(Sender: TObject);
 begin
+
   Close;
 end;
 
@@ -240,13 +326,14 @@ procedure TfmMain.pmiSetupClick(Sender: TObject);
 begin
 
   fmConfig.ShowModal;
-  getConfig;
-  writeConfig;
+  getConfig();
+  writeConfig();
 end;
 
 
 procedure TfmMain.sbCloseClick(Sender: TObject);
 begin
+
   Close;
 end;
 
@@ -270,185 +357,181 @@ procedure TfmMain.TrayIconDblClick(Sender: TObject);
 begin
 
   if fmMain.Visible then
+  begin
+
     fmMain.Hide
-  else
+  end else
+  begin
+
     fmMain.Show;
+  end;
 end;
 
 
 procedure TfmMain.ClockTimerTimer(Sender: TObject);
-var   ldtNow     : TDateTime;
-      lsTrayHint : String;
+// var // ldtNow     : TDateTime;
+    // lsTrayHint : String;
 begin
 
   //***** Минуту еще не натикало?
-  if mwClockSeconds<ciMaxSecond then begin
+  if mwClockSeconds<ciMaxSecond then
+  begin
 
     inc(mwClockSeconds);
     DisplayTime;
     fmMain.Update;
-  end else begin
+  end else
+  begin
 
     //***** Уже натикало
     mwClockSeconds:=0;
-
-
     //***** Час еще не натикало?
-    if mwClockMinutes<ciMaxMinute then begin
+    if mwClockMinutes<ciMaxMinute then
+    begin
 
       //inc(mwClockMinutes)
       AskSystemDateAndTime;
       DisplayTime;
       DisplayDate;
 
-    end else begin
+    end else
+    begin
 
       //***** Уже натикало
       mwClockMinutes:=0;
 
       //***** Сутки не натикали еще?
-      if mwClockHours<ciMaxHour then begin
+      if mwClockHours<ciMaxHour then
+      begin
 
         inc(mwClockHours);
-      end else begin
+      end else
+      begin
 
         //***** Уже натикали
         mwClockHours:=0;
       end;
-
     end;
   end;
 end;
 
 
-function TfmMain.readConfig : Boolean;
-var liIdx : Integer;
+function TfmMain.readConfig() : Boolean;
+var loIniMgr      : TEasyIniManager;
 begin
 
   Result:=False;
   //***** Общие параметры
-  if IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName) then begin
+  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csIniFileName);
 
-    msLocaleFolder:=IniReadString('main','locale',csLocaleFolder+'en_US');
-    Slashit(msLocaleFolder);
-    msThemeFolder:=IniReadString('main','theme',csThemeFolder+'main');
-    Slashit(msThemeFolder);
-
-    //***** Прилипание к краям экрана
-    mblStickyFlag:=IniReadBool(csConfigSection,csStickyFlag);
-    miStickyMargin:=IniReadInt(csConfigSection,csStickyMargin);
-
-    //***** Прозрачность
-    Self.AlphaBlend:=IniReadBool(csConfigSection,csTransparentFlag);
-    Self.AlphaBlendValue:=IniReadInt(csConfigSection,csTransparentValue);
-
-    //***** Кнопка минимизации
-    sbMinimize.Visible:=IniReadBool(csConfigSection,csMinimizeBtnVisible);
-
-    //***** Кнопка закрытия
-    sbClose.Visible:=IniReadBool(csConfigSection,csCloseBtnVisible);
-
-    //***** Показывать время
-    lbTime.Visible:=IniReadBool(csConfigSection,csVisibleTimeFlag);
-
-    //***** Показывать дату
-    lbDate.Visible:=IniReadBool(csConfigSection,csVisibleDateFlag);
-
-
-    //***** Шрифт времени
-    IniReadFont(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
-
-    //***** Шрифт даты
-    IniReadFont(csConfigSection,csDateFontValue,lbDate.Font);
-
-    //***** Цвет времени
-    lbTime.Font.Color:=IniReadInt(csConfigSection,csTimeColorValue,ciDefaultTimeColor);
-
-    //***** Цвет даты
-    lbDate.Font.Color:=IniReadInt(csConfigSection,csDateColorValue,ciDefaultDateColor);
-
-    //***** Выбранная тема
-    msThemeName:=IniReadString(csConfigSection,csThemeNameValue,csDefaultThemeName);
-
-
-    //***** Скорректируем позиции даты и времени
-    adjustDateAndTimePosition;
-
-    IniClose;
-    Result:=True;
-  end;
-
-  //***** Параметры окон
-  if Result and IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
-
-    IniReadForm(fmMain);
-    IniReadForm(fmConfig);
-    IniClose;
-    Result:=True;
-  end else begin
-
-    Result:=False;
-  end;
-
-end;
-
-
-function TfmMain.writeConfig : Boolean;
-var liIdx : Integer;
-begin
-
-  Result:=False;
-  //***** Общие параметры
-  IniOpen(g_sProgrammFolder+csEtcFolder+csIniFileName);
+  msLocaleFolder:=loIniMgr.read(csMainSection,'locale',csLocaleFolder+'en_US');
+  addSeparator(msLocaleFolder);
+  msThemeFolder:=loIniMgr.read(csMainSection,'theme',csThemeFolder+'main');
+  addSeparator(msThemeFolder);
 
   //***** Прилипание к краям экрана
-  IniWriteBool(csConfigSection,csStickyFlag,mblStickyFlag);
-  IniWriteInt(csConfigSection,csStickyMargin,miStickyMargin);
+  mblStickyFlag:=loIniMgr.read(csConfigSection,csStickyFlag, False);
+  miStickyMargin:=loIniMgr.read(csConfigSection,csStickyMargin, 0);
 
   //***** Прозрачность
-  IniWriteBool(csConfigSection,csTransparentFlag,AlphaBlend);
-  IniWriteInt(csConfigSection,csTransparentValue,AlphaBlendValue);
+  Self.AlphaBlend:=loIniMgr.read(csConfigSection,csTransparentFlag, False);
+  Self.AlphaBlendValue:=loIniMgr.read(csConfigSection,csTransparentValue, 255);
 
   //***** Кнопка минимизации
-  IniWriteBool(csConfigSection,csMinimizeBtnVisible,sbMinimize.Visible);
+  sbMinimize.Visible:=loIniMgr.read(csConfigSection,csMinimizeBtnVisible, True);
 
   //***** Кнопка закрытия
-  IniWriteBool(csConfigSection,csCloseBtnVisible,sbClose.Visible);
+  sbClose.Visible:=loIniMgr.read(csConfigSection,csCloseBtnVisible, True);
 
   //***** Показывать время
-  IniWriteBool(csConfigSection,csVisibleTimeFlag,lbTime.Visible);
+  lbTime.Visible:=loIniMgr.read(csConfigSection,csVisibleTimeFlag, True);
 
   //***** Показывать дату
-  IniWriteBool(csConfigSection,csVisibleDateFlag,lbDate.Visible);
+  lbDate.Visible:=loIniMgr.read(csConfigSection,csVisibleDateFlag, True);
 
   //***** Шрифт времени
-  IniWriteFont(csConfigSection,csTimeFontValue,lbTime.Font);
+  // !!! loIniMgr.read(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
 
   //***** Шрифт даты
-  IniWriteFont(csConfigSection,csDateFontValue,lbDate.Font);
+  // !!! loIniMgr.read(csConfigSection,csDateFontValue,lbDate.Font);
 
   //***** Цвет времени
-  IniWriteInt(csConfigSection,csTimeColorValue,lbTime.Font.Color);
+  lbTime.Font.Color:=loIniMgr.read(csConfigSection,csTimeColorValue,ciDefaultTimeColor);
 
   //***** Цвет даты
-  IniWriteInt(csConfigSection,csDateColorValue,lbDate.Font.Color);
+  lbDate.Font.Color:=loIniMgr.read(csConfigSection,csDateColorValue,ciDefaultDateColor);
 
   //***** Выбранная тема
-  IniWriteString(csConfigSection,csThemeNameValue,msThemeName);
+  msThemeName:=loIniMgr.read(csConfigSection,csThemeNameValue,csDefaultThemeName);
 
-  IniClose();
+  //***** Скорректируем позиции даты и времени
+  adjustDateAndTimePosition;
 
+  FreeAndNil(loIniMgr);
+  Result:=True;
   //***** Параметры окон
-  if IniOpen(g_sProgrammFolder+csEtcFolder+csWinIniFileName) then begin
-    IniSaveForm(fmMain);
-    IniSaveForm(fmConfig);
-    IniClose;
-    Result:=True;
-  end;
+  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+  loIniMgr.LoadForm(fmMain);
+  loIniMgr.LoadForm(fmConfig);
+  FreeAndNil(loIniMgr);
 end;
 
 
-procedure TfmMain.setConfig;
+function TfmMain.writeConfig() : Boolean;
+var // liIdx : Integer;
+    loIniMgr      : TEasyIniManager;
+begin
+
+  Result:=False;
+  //***** Общие параметры
+  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+
+  //***** Прилипание к краям экрана
+  loIniMgr.write(csConfigSection,csStickyFlag,mblStickyFlag);
+  loIniMgr.write(csConfigSection,csStickyMargin,miStickyMargin);
+
+  //***** Прозрачность
+  loIniMgr.write(csConfigSection,csTransparentFlag,AlphaBlend);
+  loIniMgr.write(csConfigSection,csTransparentValue,AlphaBlendValue);
+
+  //***** Кнопка минимизации
+  loIniMgr.write(csConfigSection,csMinimizeBtnVisible,sbMinimize.Visible);
+
+  //***** Кнопка закрытия
+  loIniMgr.write(csConfigSection,csCloseBtnVisible,sbClose.Visible);
+
+  //***** Показывать время
+  loIniMgr.write(csConfigSection,csVisibleTimeFlag,lbTime.Visible);
+
+  //***** Показывать дату
+  loIniMgr.write(csConfigSection,csVisibleDateFlag,lbDate.Visible);
+
+  //***** Шрифт времени
+  // !!! loIniMgr.write(csConfigSection,csTimeFontValue,lbTime.Font);
+
+  //***** Шрифт даты
+  // !!! loIniMgr.write(csConfigSection,csDateFontValue,lbDate.Font);
+
+  //***** Цвет времени
+  loIniMgr.write(csConfigSection,csTimeColorValue,lbTime.Font.Color);
+
+  //***** Цвет даты
+  loIniMgr.write(csConfigSection,csDateColorValue,lbDate.Font.Color);
+
+  //***** Выбранная тема
+  loIniMgr.write(csConfigSection,csThemeNameValue,msThemeName);
+
+  FreeAndNil(loIniMgr);
+
+  //***** Параметры окон
+  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+  loIniMgr.SaveForm(fmMain);
+  loIniMgr.SaveForm(fmConfig);
+  FreeAndNil(loIniMgr);
+end;
+
+
+procedure TfmMain.setConfig();
 begin
 
   //***** Прилипание к краям экрана
@@ -482,11 +565,10 @@ begin
 
   //***** Цвет даты
   fmConfig.dlgDateColor.Color:=lbDate.Font.Color;
-
 end;
 
 
-procedure TfmMain.getConfig;
+procedure TfmMain.getConfig();
 begin
 
   //***** Прилипание к краям экрана
@@ -523,19 +605,17 @@ begin
   //***** Цвет даты
   lbDate.Font.Color:=fmConfig.dlgDateColor.Color;
 
-
   //***** Скорректируем позиции даты и времени
   adjustDateAndTimePosition;
-
 end;
 
 
-function TfmMain.readLocale : Boolean;
-var liIdx : Integer;
+function TfmMain.readLocale() : Boolean;
+//var liIdx : Integer;
 begin
-
   Result:=False;
-  if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+csMainLocaleFilename) then begin
+  (*
+  if IniOpen(getAPPFolder()+csLocaleFolder+msLocaleFolder+csMainLocaleFilename) then begin
 
     //***** Названия месяцев
     for liIdx:=1 to ciMonthCount do begin
@@ -549,7 +629,7 @@ begin
 
     IniClose;
 
-    if IniOpen(g_sProgrammFolder+csLocaleFolder+msLocaleFolder+csFormsLocaleFilename) then begin
+    if IniOpen(getAPPFolder()+csLocaleFolder+msLocaleFolder+csFormsLocaleFilename) then begin
       //localeComponent(fmMain.pmiExit,'*Exit*');
       //localeComponent(fmMain.pmiSetup,'*Setup*');
       //localeComponent(fmConfig.chbStickyFlag,'*Sticky edges*');
@@ -566,24 +646,25 @@ begin
       Result:=True;
     end;
   end;
+*)
 end;
 
 
-function  TfmMain.readTheme : Boolean;
+function  TfmMain.readTheme() : Boolean;
 begin
-
   Result:=False;
+  (*
   if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+msThemeName) then begin
 
     //***** Глифы микрокнопок
     msMicroBtnPath:=IniReadString(csMicroSection,'path',csDefaultMicroFolder);
-    SlashIt(msMicroBtnPath);
+    addSeparator(msMicroBtnPath);
     msMicroCloseGlyph:=IniReadString(csMicroSection,'close','red.png');
     msMicroMinimizeGlyph:=IniReadString(csMicroSection,'minimize','blue.png');
 
     //***** Глифы обычных кнопок
     msButtonPath:=IniReadString(csButtonsSection,'path',csDefaultMicroFolder);
-    SlashIt(msButtonPath);
+    addSeparator(msButtonPath);
     msButtonOkGlyph:=IniReadString(csButtonsSection,'ok','dialog-ok-apply.png');
     msButtonCancelGlyph:=IniReadString(csButtonsSection,'cancel','dialog-cancel.png');
     IniClose;
@@ -592,15 +673,17 @@ begin
             FileExists(g_sProgrammFolder+msButtonPath+msButtonOkGlyph) and
             FileExists(g_sProgrammFolder+msButtonPath+msButtonOkGlyph);
   end;
+  *)
 end;
 
 
-function  TfmMain.writeTheme : Boolean;
-var lsMicroPath,
-    lsButtonPath : String;
+function  TfmMain.writeTheme() : Boolean;
+//var lsMicroPath,
+    //lsButtonPath : String;
 begin
 
   Result:=False;
+  (*
   if IniOpen(g_sProgrammFolder+csThemeFolder+msThemeFolder+msThemeName) then begin
 
     //***** Глифы микрокнопок
@@ -614,21 +697,28 @@ begin
 
     Result:=True;
   end;
+  *)
 end;
 
 
-procedure TfmMain.applyTheme;
+procedure TfmMain.applyTheme();
 begin
 
   if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
-    sbClose.Glyph.LoadFromFile(g_sProgrammFolder+msMicroBtnPath+msMicroCloseGlyph);
+  begin
+
+    sbClose.Glyph.LoadFromFile(getAPPFolder()+msMicroBtnPath+msMicroCloseGlyph);
+  end;
 
   if sbMinimize.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroMinimizeGlyph)) then
-    sbMinimize.Glyph.LoadFromFile(g_sProgrammFolder+msMicroBtnPath+msMicroMinimizeGlyph);
+  begin
+
+    sbMinimize.Glyph.LoadFromFile(getAPPFolder()+msMicroBtnPath+msMicroMinimizeGlyph);
+  end;
 end;
 
 
-procedure TfmMain.getDateAndTimeDefaultPosition;
+procedure TfmMain.getDateAndTimeDefaultPosition();
 begin
 
   miNormalDateLeft:=lbDate.Left;
@@ -636,15 +726,16 @@ begin
 end;
 
 
-procedure TfmMain.adjustDateAndTimePosition;
+procedure TfmMain.adjustDateAndTimePosition();
 begin
 
-  if lbTime.Visible then begin
+  if lbTime.Visible then
+  begin
 
     lbTime.Width:=miNormalTimeWidth;
     lbDate.Left:=miNormalDateLeft;
-
-  end else begin
+  end else
+  begin
 
     lbTime.Width:=1;
     lbDate.Left:=ciNoTimeDateLeft;
@@ -652,7 +743,7 @@ begin
 end;
 
 
-procedure TfmMain.askSystemDateAndTime;
+procedure TfmMain.askSystemDateAndTime();
 var ldtNow : TDateTime;
 begin
 
@@ -663,7 +754,7 @@ begin
 end;
 
 
-procedure TfmMain.displayDate;
+procedure TfmMain.displayDate();
 begin
 
   msClockDateHint:=AlignRight(IntToStr(mwClockDay),2,'0')+' '+
@@ -673,7 +764,7 @@ begin
 end;
 
 
-procedure TfmMain.displayTime;
+procedure TfmMain.displayTime();
 begin
 
   msClockTimeHint:=IntToStr(mwClockHours)+':'+
