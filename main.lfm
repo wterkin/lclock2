@@ -2,12 +2,12 @@ object fmMain: TfmMain
   Left = 682
   Height = 41
   Top = 337
-  Width = 377
+  Width = 335
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'LClock'
   ClientHeight = 41
-  ClientWidth = 377
+  ClientWidth = 335
   Constraints.MinWidth = 304
   OnActivate = FormActivate
   OnClose = FormClose
@@ -19,7 +19,7 @@ object fmMain: TfmMain
   Position = poDefault
   LCLVersion = '2.2.6.0'
   object Bevel2: TBevel
-    Left = 96
+    Left = 88
     Height = 34
     Top = 3
     Width = 146
@@ -32,7 +32,7 @@ object fmMain: TfmMain
     Width = 85
   end
   object sbClose: TSpeedButton
-    Left = 342
+    Left = 300
     Height = 31
     Top = 5
     Width = 32
@@ -105,7 +105,7 @@ object fmMain: TfmMain
     OnClick = sbCloseClick
   end
   object sbMinimize: TSpeedButton
-    Left = 310
+    Left = 268
     Height = 31
     Top = 5
     Width = 32
@@ -178,7 +178,7 @@ object fmMain: TfmMain
     OnClick = sbMinimizeClick
   end
   object lbDate: TLabel
-    Left = 100
+    Left = 92
     Height = 24
     Top = 11
     Width = 138
@@ -215,7 +215,7 @@ object fmMain: TfmMain
     OnMouseUp = FormMouseUp
   end
   object sbConfig: TSpeedButton
-    Left = 278
+    Left = 236
     Height = 31
     Top = 5
     Width = 32

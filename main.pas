@@ -481,8 +481,8 @@ begin
   Result:=True;
   //***** Параметры окон
   loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
-  loIniMgr.LoadForm(fmMain);
-  loIniMgr.LoadForm(fmConfig);
+  loIniMgr.read(fmMain);
+  loIniMgr.read(fmConfig);
   FreeAndNil(loIniMgr);
 end;
 
@@ -535,8 +535,8 @@ begin
 
   //***** Параметры окон
   loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
-  loIniMgr.SaveForm(fmMain);
-  loIniMgr.SaveForm(fmConfig);
+  loIniMgr.write(fmMain);
+  loIniMgr.write(fmConfig);
   FreeAndNil(loIniMgr);
 end;
 
