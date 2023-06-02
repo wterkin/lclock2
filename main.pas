@@ -28,6 +28,7 @@ type
     popMain: TPopupMenu;
     sbClose: TSpeedButton;
     sbMinimize: TSpeedButton;
+		sbConfig: TSpeedButton;
     TrayIcon: TTrayIcon;
     procedure ClockTimerTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure pmiExitClick(Sender: TObject);
     procedure pmiSetupClick(Sender: TObject);
     procedure sbCloseClick(Sender: TObject);
+		procedure sbConfigClick(Sender: TObject);
     procedure sbMinimizeClick(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
@@ -335,6 +337,14 @@ procedure TfmMain.sbCloseClick(Sender: TObject);
 begin
 
   Close;
+end;
+
+procedure TfmMain.sbConfigClick(Sender: TObject);
+begin
+
+  fmConfig.ShowModal;
+  getConfig();
+  writeConfig();
 end;
 
 
