@@ -18,10 +18,10 @@ type
   TMonthsArray = array[1..ciMonthCount] of String;
 
   TfmMain = class(TForm)
-    Bevel1 : TBevel;
-    Bevel2 : TBevel;
     lbDate : TLabel;
     lbTime : TLabel;
+		panDate: TPanel;
+		panTime: TPanel;
     pmiSetup: TMenuItem;
     pmiExit: TMenuItem;
     ClockTimer: TTimer;
@@ -460,10 +460,10 @@ begin
   lbDate.Visible:=loIniMgr.read(csConfigSection,csVisibleDateFlag, True);
 
   //***** Шрифт времени
-  // !!! loIniMgr.read(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
+  lbTime.Font:=loIniMgr.read(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
 
   //***** Шрифт даты
-  // !!! loIniMgr.read(csConfigSection,csDateFontValue,lbDate.Font);
+  lbDate.Font:=loIniMgr.read(csConfigSection,csDateFontValue,lbDate.Font);
 
   //***** Цвет времени
   lbTime.Font.Color:=loIniMgr.read(csConfigSection,csTimeColorValue,ciDefaultTimeColor);
@@ -494,7 +494,7 @@ begin
 
   Result:=False;
   //***** Общие параметры
-  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csIniFileName);
 
   //***** Прилипание к краям экрана
   loIniMgr.write(csConfigSection,csStickyFlag,mblStickyFlag);
@@ -517,10 +517,10 @@ begin
   loIniMgr.write(csConfigSection,csVisibleDateFlag,lbDate.Visible);
 
   //***** Шрифт времени
-  // !!! loIniMgr.write(csConfigSection,csTimeFontValue,lbTime.Font);
+  loIniMgr.write(csConfigSection,csTimeFontValue,lbTime.Font);
 
   //***** Шрифт даты
-  // !!! loIniMgr.write(csConfigSection,csDateFontValue,lbDate.Font);
+  loIniMgr.write(csConfigSection,csDateFontValue,lbDate.Font);
 
   //***** Цвет времени
   loIniMgr.write(csConfigSection,csTimeColorValue,lbTime.Font.Color);
