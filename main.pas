@@ -122,6 +122,8 @@ const
                                           'апреля', 'мая', 'июня',
                                           'июля', 'августа', 'сентября',
                                           'октября', 'ноября', 'декабря');
+         casWeekDaysArray : Array[1..7] of String = ('пн','вт','ср','чт',
+                                                     'пт','сб','вс');
 var
   fmMain: TfmMain;
 
@@ -769,7 +771,8 @@ begin
 
   msClockDateHint:=AlignRight(IntToStr(mwClockDay),2,'0')+' '+
                   masMonths[mwClockMonth]+' '+
-                  IntToStr(mwClockYear);
+                  IntToStr(mwClockYear) + ', '+
+                  casWeekDaysArray[DayOfTheWeek(Now)];
   lbDate.Caption:=msClockDateHint;
 end;
 
