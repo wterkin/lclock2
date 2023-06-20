@@ -146,7 +146,7 @@ begin
   askSystemDateAndTime();
   displayTime();
   displayDate();
-  Caption := csTitle;
+  Hint := csTitle;
   Show;
 end;
 

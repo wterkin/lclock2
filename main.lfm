@@ -256,9 +256,13 @@ object fmMain: TfmMain
       Alignment = taCenter
       AutoSize = False
       Caption = '25:88:92'
-      Font.Color = clNavy
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Color = clMaroon
       Font.Height = -16
-      Font.Name = 'Monospace'
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsItalic]
       Layout = tlCenter
       ParentColor = False
       ParentFont = False
