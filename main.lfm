@@ -17,6 +17,7 @@ object fmMain: TfmMain
   OnMouseUp = FormMouseUp
   PopupMenu = popMain
   Position = poDefault
+  ShowHint = True
   LCLVersion = '2.2.6.0'
   object sbClose: TSpeedButton
     Left = 340

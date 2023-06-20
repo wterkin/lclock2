@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Buttons, Menus, DateUtils, IntfGraphics, FPImage, // LCLClasses,
   ComCtrls, Config
-  {, tlib}, tapp, tstr, tini;
+  , tapp, tstr, tini;
 
 {$i const.inc}
 
@@ -124,6 +124,7 @@ const
                                           'октября', 'ноября', 'декабря');
          casWeekDaysArray : Array[1..7] of String = ('пн','вт','ср','чт',
                                                      'пт','сб','вс');
+         csTitle           = 'LClock ver. 2.03';
 var
   fmMain: TfmMain;
 
@@ -132,82 +133,20 @@ implementation
 {$R *.lfm}
 
 
-function alignFill(psLine : String; piWidth : Integer; piAlign : Integer = ciAlLeft; pcFill : Char = ' ') : String;
-var lsLine  : String;
-    liWdt,
-    liLen,
-    liHalf  : Integer;
-begin
-
-  lsLine:=Trim(psLine);
-  liLen:=Length(lsLine);
-  if liLen>0 then begin
-
-    if liLen<piWidth then begin
-
-      liWdt:=piWidth-liLen;
-      if piAlign=ciAlCenter then begin
-
-        liHalf:=liWdt div 2;
-        lsLine:=StringOfChar(pcFill,liHalf)+lsLine+StringOfChar(pcFill,liWdt-liHalf);
-      end else begin
-
-        if piAlign=ciAlLeft then begin
-
-          lsLine:=lsLine+StringOfChar(pcFill,liWdt);
-        end else begin
-
-          if piAlign=ciAlRight then begin
-
-            lsLine:=StringOfChar(pcFill,liWdt)+lsLine;
-          end;
-        end
-      end;
-    end;
-  end else begin
-
-    lsLine:=StringOfChar(#32,piWidth);
-  end;
-  Result:=lsLine;
-end;
-
-
-function alignRight(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
-begin
-
-  Result:=AlignFill(psLine,piWidth,ciAlRight,pcFill);
-end;
-
-
-function alignLeft(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
-begin
-
-  Result:=AlignFill(psLine,piWidth,ciAlLeft,pcFill);
-end;
-
-
-function alignCenter(psLine : String; piWidth : Integer; pcFill : Char = #32) : String;
-begin
-
-  Result:=AlignFill(psLine,piWidth,ciAlCenter,pcFill);
-end;
-
-
 procedure TfmMain.FormActivate(Sender: TObject);
 begin
 
   OnActivate:=Nil;
-  // ToDo: Обработка ошибок!
   Hide;
-  // ### getDateAndTimeDefaultPosition;
-  readConfig;
-  setConfig;
+  readConfig();
+  setConfig();
   // readLocale; // пока закомментим
-  readTheme;
-  applyTheme;
-  askSystemDateAndTime;
-  displayTime;
-  displayDate;
+  readTheme();
+  applyTheme();
+  askSystemDateAndTime();
+  displayTime();
+  displayDate();
+  Caption := csTitle;
   Show;
 end;
 
@@ -217,6 +156,7 @@ begin
 
   writeConfig;
 end;
+
 
 procedure TfmMain.FormCreate(Sender : TObject);
 begin
@@ -233,59 +173,58 @@ begin
   if Sender is TLabel then
   begin
 
-    mlFormerX:=X;
-    mlFormerY:=Y+24;
+    mlFormerX := X;
+    mlFormerY := Y+24;
   end else
   begin
 
-    mlFormerX:=X;
-    mlFormerY:=Y;
+    mlFormerX := X;
+    mlFormerY := Y;
   end;
   Cursor := crSizeAll;
-  {endif}
 end;
 
 
 procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
-  if (Sender is TLabel) and (Cursor=crSizeAll) then
+
+  if (Sender is TLabel) and (Cursor = crSizeAll) then
   begin
 
-    MouseCapture:=True;
+    MouseCapture := True;
   end;
   {ifdef __WINDOWS__}
   if MouseCapture then
   begin
 
-    fmMain.Left:=Mouse.CursorPos.X-mlFormerX;
-    fmMain.Top:=Mouse.CursorPos.Y-mlFormerY;
+    fmMain.Left := Mouse.CursorPos.X - mlFormerX;
+    fmMain.Top := Mouse.CursorPos.Y - mlFormerY;
     if mblStickyFlag then
     begin
 
-      if fmMain.Left<=miStickyMargin then
+      if fmMain.Left <= miStickyMargin then
       begin
 
-        fmMain.Left:=0;
+        fmMain.Left := 0;
       end;
-      if fmMain.Left>=Screen.DesktopWidth-(fmMain.Width+miStickyMargin) then
+      if fmMain.Left >= Screen.DesktopWidth - (fmMain.Width + miStickyMargin) then
       begin
 
-        fmMain.Left:=Pred(Screen.DesktopWidth-fmMain.Width);
+        fmMain.Left := Pred(Screen.DesktopWidth - fmMain.Width);
       end;
-      if fmMain.Top<=miStickyMargin then
+      if fmMain.Top <= miStickyMargin then
       begin
 
-        fmMain.Top:=0;
+        fmMain.Top := 0;
       end;
-      if fmMain.Top>=Screen.DesktopHeight-(fmMain.Height+miStickyMargin) then
+      if fmMain.Top >= Screen.DesktopHeight - (fmMain.Height + miStickyMargin) then
       begin
 
-        fmMain.Top:=Pred(Screen.DesktopHeight-fmMain.Height);
+        fmMain.Top := Pred(Screen.DesktopHeight - fmMain.Height);
       end;
     end;
   end;
-  {endif}
 end;
 
 
@@ -294,7 +233,7 @@ procedure TfmMain.FormMouseUp(Sender: TObject; Button: TMouseButton;
 begin
 
   {ifdef __WINDOWS__}
-   Cursor:=crDefault;
+   Cursor := crDefault;
   {endif}
 end;
 
@@ -303,9 +242,9 @@ procedure TfmMain.lbDateMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 
-  mlFormerX:=X+lbDate.Left;
-  mlFormerY:=Y+lbDate.Top;
-  Cursor:=crSizeAll;
+  mlFormerX := X + lbDate.Left;
+  mlFormerY := Y + lbDate.Top;
+  Cursor := crSizeAll;
 end;
 
 
@@ -313,9 +252,9 @@ procedure TfmMain.lbTimeMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 
-  mlFormerX:=X+lbTime.Left;
-  mlFormerY:=Y+lbTime.Top;
-  Cursor:=crSizeAll;
+  mlFormerX := X + lbTime.Left;
+  mlFormerY := Y + lbTime.Top;
+  Cursor := crSizeAll;
 end;
 
 
@@ -341,6 +280,7 @@ begin
   Close;
 end;
 
+
 procedure TfmMain.sbConfigClick(Sender: TObject);
 begin
 
@@ -360,7 +300,7 @@ end;
 procedure TfmMain.TrayIconClick(Sender: TObject);
 begin
 
-  TrayIcon.BalloonHint:=msClockDateHint+LF+msClockTimeHint;
+  TrayIcon.BalloonHint := msClockDateHint + LF + msClockTimeHint;
   TrayIcon.ShowBalloonHint;
 end;
 
@@ -381,12 +321,10 @@ end;
 
 
 procedure TfmMain.ClockTimerTimer(Sender: TObject);
-// var // ldtNow     : TDateTime;
-    // lsTrayHint : String;
 begin
 
   //***** Минуту еще не натикало?
-  if mwClockSeconds<ciMaxSecond then
+  if mwClockSeconds < ciMaxSecond then
   begin
 
     inc(mwClockSeconds);
@@ -396,12 +334,11 @@ begin
   begin
 
     //***** Уже натикало
-    mwClockSeconds:=0;
+    mwClockSeconds := 0;
     //***** Час еще не натикало?
-    if mwClockMinutes<ciMaxMinute then
+    if mwClockMinutes < ciMaxMinute then
     begin
 
-      //inc(mwClockMinutes)
       AskSystemDateAndTime;
       DisplayTime;
       DisplayDate;
@@ -410,10 +347,10 @@ begin
     begin
 
       //***** Уже натикало
-      mwClockMinutes:=0;
+      mwClockMinutes := 0;
 
       //***** Сутки не натикали еще?
-      if mwClockHours<ciMaxHour then
+      if mwClockHours < ciMaxHour then
       begin
 
         inc(mwClockHours);
@@ -421,7 +358,7 @@ begin
       begin
 
         //***** Уже натикали
-        mwClockHours:=0;
+        mwClockHours := 0;
       end;
     end;
   end;
@@ -434,55 +371,51 @@ begin
 
   Result:=False;
   //***** Общие параметры
-  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csIniFileName);
+  loIniMgr := TEasyIniManager.Create(getAPPFolder() + csEtcFolder + csIniFileName);
 
-  msLocaleFolder:=loIniMgr.read(csMainSection,'locale',csLocaleFolder+'en_US');
+  msLocaleFolder := loIniMgr.read(csMainSection,'locale', csLocaleFolder + 'en_US');
   addSeparator(msLocaleFolder);
-  msThemeFolder:=loIniMgr.read(csMainSection,'theme',csThemeFolder+'main');
+  msThemeFolder := loIniMgr.read(csMainSection,'theme', csThemeFolder + 'main');
   addSeparator(msThemeFolder);
 
   //***** Прилипание к краям экрана
-  mblStickyFlag:=loIniMgr.read(csConfigSection,csStickyFlag, False);
-  miStickyMargin:=loIniMgr.read(csConfigSection,csStickyMargin, 0);
+  mblStickyFlag := loIniMgr.read(csConfigSection, csStickyFlag, False);
+  miStickyMargin := loIniMgr.read(csConfigSection, csStickyMargin, 0);
 
   //***** Прозрачность
-  Self.AlphaBlend:=loIniMgr.read(csConfigSection,csTransparentFlag, False);
-  Self.AlphaBlendValue:=loIniMgr.read(csConfigSection,csTransparentValue, 255);
+  Self.AlphaBlend := loIniMgr.read(csConfigSection, csTransparentFlag, False);
+  Self.AlphaBlendValue := loIniMgr.read(csConfigSection, csTransparentValue, 255);
 
   //***** Кнопка минимизации
-  sbMinimize.Visible:=loIniMgr.read(csConfigSection,csMinimizeBtnVisible, True);
+  sbMinimize.Visible := loIniMgr.read(csConfigSection, csMinimizeBtnVisible, True);
 
   //***** Кнопка закрытия
-  sbClose.Visible:=loIniMgr.read(csConfigSection,csCloseBtnVisible, True);
+  sbClose.Visible := loIniMgr.read(csConfigSection, csCloseBtnVisible, True);
 
   //***** Показывать время
-  lbTime.Visible:=loIniMgr.read(csConfigSection,csVisibleTimeFlag, True);
+  lbTime.Visible := loIniMgr.read(csConfigSection, csVisibleTimeFlag, True);
 
   //***** Показывать дату
-  lbDate.Visible:=loIniMgr.read(csConfigSection,csVisibleDateFlag, True);
+  lbDate.Visible := loIniMgr.read(csConfigSection, csVisibleDateFlag, True);
 
   //***** Шрифт времени
-  lbTime.Font:=loIniMgr.read(csConfigSection,csTimeFontValue,lbTime.Font); // Шрифт по умолчанию!
+  lbTime.Font := loIniMgr.read(csConfigSection, csTimeFontValue, lbTime.Font); // Шрифт по умолчанию!
 
   //***** Шрифт даты
-  lbDate.Font:=loIniMgr.read(csConfigSection,csDateFontValue,lbDate.Font);
+  lbDate.Font := loIniMgr.read(csConfigSection, csDateFontValue, lbDate.Font);
 
   //***** Цвет времени
-  lbTime.Font.Color:=loIniMgr.read(csConfigSection,csTimeColorValue,ciDefaultTimeColor);
+  lbTime.Font.Color := loIniMgr.read(csConfigSection, csTimeColorValue, ciDefaultTimeColor);
 
   //***** Цвет даты
-  lbDate.Font.Color:=loIniMgr.read(csConfigSection,csDateColorValue,ciDefaultDateColor);
+  lbDate.Font.Color := loIniMgr.read(csConfigSection, csDateColorValue, ciDefaultDateColor);
 
   //***** Выбранная тема
-  msThemeName:=loIniMgr.read(csConfigSection,csThemeNameValue,csDefaultThemeName);
-
-  //***** Скорректируем позиции даты и времени
-  //adjustDateAndTimePosition;
-
+  msThemeName := loIniMgr.read(csConfigSection, csThemeNameValue, csDefaultThemeName);
   FreeAndNil(loIniMgr);
-  Result:=True;
+  Result := True;
   //***** Параметры окон
-  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+  loIniMgr := TEasyIniManager.Create(getAPPFolder() + csEtcFolder + csWinIniFileName);
   loIniMgr.read(fmMain);
   loIniMgr.read(fmConfig);
   FreeAndNil(loIniMgr);
@@ -490,53 +423,52 @@ end;
 
 
 function TfmMain.writeConfig() : Boolean;
-var // liIdx : Integer;
-    loIniMgr      : TEasyIniManager;
+var loIniMgr      : TEasyIniManager;
 begin
 
   Result:=False;
   //***** Общие параметры
-  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csIniFileName);
+  loIniMgr := TEasyIniManager.Create(getAPPFolder() + csEtcFolder + csIniFileName);
 
   //***** Прилипание к краям экрана
-  loIniMgr.write(csConfigSection,csStickyFlag,mblStickyFlag);
-  loIniMgr.write(csConfigSection,csStickyMargin,miStickyMargin);
+  loIniMgr.write(csConfigSection, csStickyFlag, mblStickyFlag);
+  loIniMgr.write(csConfigSection, csStickyMargin, miStickyMargin);
 
   //***** Прозрачность
-  loIniMgr.write(csConfigSection,csTransparentFlag,AlphaBlend);
-  loIniMgr.write(csConfigSection,csTransparentValue,AlphaBlendValue);
+  loIniMgr.write(csConfigSection, csTransparentFlag, AlphaBlend);
+  loIniMgr.write(csConfigSection, csTransparentValue, AlphaBlendValue);
 
   //***** Кнопка минимизации
-  loIniMgr.write(csConfigSection,csMinimizeBtnVisible,sbMinimize.Visible);
+  loIniMgr.write(csConfigSection, csMinimizeBtnVisible, sbMinimize.Visible);
 
   //***** Кнопка закрытия
-  loIniMgr.write(csConfigSection,csCloseBtnVisible,sbClose.Visible);
+  loIniMgr.write(csConfigSection, csCloseBtnVisible, sbClose.Visible);
 
   //***** Показывать время
-  loIniMgr.write(csConfigSection,csVisibleTimeFlag,lbTime.Visible);
+  loIniMgr.write(csConfigSection, csVisibleTimeFlag, lbTime.Visible);
 
   //***** Показывать дату
-  loIniMgr.write(csConfigSection,csVisibleDateFlag,lbDate.Visible);
+  loIniMgr.write(csConfigSection, csVisibleDateFlag, lbDate.Visible);
 
   //***** Шрифт времени
-  loIniMgr.write(csConfigSection,csTimeFontValue,lbTime.Font);
+  loIniMgr.write(csConfigSection, csTimeFontValue, lbTime.Font);
 
   //***** Шрифт даты
-  loIniMgr.write(csConfigSection,csDateFontValue,lbDate.Font);
+  loIniMgr.write(csConfigSection, csDateFontValue, lbDate.Font);
 
   //***** Цвет времени
-  loIniMgr.write(csConfigSection,csTimeColorValue,lbTime.Font.Color);
+  loIniMgr.write(csConfigSection, csTimeColorValue, lbTime.Font.Color);
 
   //***** Цвет даты
-  loIniMgr.write(csConfigSection,csDateColorValue,lbDate.Font.Color);
+  loIniMgr.write(csConfigSection, csDateColorValue, lbDate.Font.Color);
 
   //***** Выбранная тема
-  loIniMgr.write(csConfigSection,csThemeNameValue,msThemeName);
+  loIniMgr.write(csConfigSection, csThemeNameValue, msThemeName);
 
   FreeAndNil(loIniMgr);
 
   //***** Параметры окон
-  loIniMgr := TEasyIniManager.Create(getAPPFolder()+csEtcFolder+csWinIniFileName);
+  loIniMgr := TEasyIniManager.Create(getAPPFolder() +csEtcFolder + csWinIniFileName);
   loIniMgr.write(fmMain);
   loIniMgr.write(fmConfig);
   FreeAndNil(loIniMgr);
@@ -547,24 +479,24 @@ procedure TfmMain.setConfig();
 begin
 
   //***** Прилипание к краям экрана
-  fmConfig.chbStickyFlag.Checked:=mblStickyFlag;
-  fmConfig.edStickyMargin.Text:=IntToStr(miStickyMargin);
+  fmConfig.chbStickyFlag.Checked := mblStickyFlag;
+  fmConfig.edStickyMargin.Text := IntToStr(miStickyMargin);
 
   //***** Прозрачность
-  fmConfig.chbTransparent.Checked:=AlphaBlend;  //mblTransparentFlag;
-  fmConfig.trbTransparent.Position:=AlphaBlendValue; //miTransparentValue;
+  fmConfig.chbTransparent.Checked := AlphaBlend;  //mblTransparentFlag;
+  fmConfig.trbTransparent.Position := AlphaBlendValue; //miTransparentValue;
 
   //***** Кнопка минимизации
-  fmConfig.chbMinimizeBtnVisible.Checked:=sbMinimize.Visible;
+  fmConfig.chbMinimizeBtnVisible.Checked := sbMinimize.Visible;
 
   //***** Кнопка закрытия
-  fmConfig.chbCloseBtnVisible.Checked:=sbClose.Visible;
+  fmConfig.chbCloseBtnVisible.Checked := sbClose.Visible;
 
   //***** Показывать время
-  fmConfig.chbShowTime.Checked:=lbTime.Visible;
+  fmConfig.chbShowTime.Checked := lbTime.Visible;
 
   //***** Показывать дату
-  fmConfig.chbShowDate.Checked:=lbDate.Visible;
+  fmConfig.chbShowDate.Checked := lbDate.Visible;
 
   //***** Шрифт времени
   fmConfig.dlgTimeFont.Font.Assign(lbTime.Font);
@@ -573,10 +505,10 @@ begin
   fmConfig.dlgDateFont.Font.Assign(lbDate.Font);
 
   //***** Цвет времени
-  fmConfig.dlgTimeColor.Color:=lbTime.Font.Color;
+  fmConfig.dlgTimeColor.Color := lbTime.Font.Color;
 
   //***** Цвет даты
-  fmConfig.dlgDateColor.Color:=lbDate.Font.Color;
+  fmConfig.dlgDateColor.Color := lbDate.Font.Color;
 end;
 
 
@@ -584,26 +516,26 @@ procedure TfmMain.getConfig();
 begin
 
   //***** Прилипание к краям экрана
-  mblStickyFlag:=fmConfig.chbStickyFlag.Checked;
-  miStickyMargin:=StrToIntDef(fmConfig.edStickyMargin.Text,0);
-  if miStickyMargin<2 then
-    mblStickyFlag:=False;
+  mblStickyFlag := fmConfig.chbStickyFlag.Checked;
+  miStickyMargin := StrToIntDef(fmConfig.edStickyMargin.Text, 0);
+  if miStickyMargin < 2 then
+    mblStickyFlag := False;
 
   //***** Прозрачность
-  Self.AlphaBlend:=fmConfig.chbTransparent.Checked;
-  Self.AlphaBlendValue:=fmConfig.trbTransparent.Position;
+  Self.AlphaBlend := fmConfig.chbTransparent.Checked;
+  Self.AlphaBlendValue := fmConfig.trbTransparent.Position;
 
   //***** Кнопка минимизации
-  sbMinimize.Visible:=fmConfig.chbMinimizeBtnVisible.Checked;
+  sbMinimize.Visible := fmConfig.chbMinimizeBtnVisible.Checked;
 
   //***** Кнопка закрытия
-  sbClose.Visible:=fmConfig.chbCloseBtnVisible.Checked;
+  sbClose.Visible := fmConfig.chbCloseBtnVisible.Checked;
 
   //***** Показывать время
-  lbTime.Visible:=fmConfig.chbShowTime.Checked;
+  lbTime.Visible := fmConfig.chbShowTime.Checked;
 
   //***** Показывать дату
-  lbDate.Visible:=fmConfig.chbShowDate.Checked;
+  lbDate.Visible := fmConfig.chbShowDate.Checked;
 
   //***** Шрифт времени
   lbTime.Font.Assign(fmConfig.dlgTimeFont.Font);
@@ -612,13 +544,10 @@ begin
   lbDate.Font.Assign(fmConfig.dlgDateFont.Font);
 
   //***** Цвет времени
-  lbTime.Font.Color:=fmConfig.dlgTimeColor.Color;
+  lbTime.Font.Color := fmConfig.dlgTimeColor.Color;
 
   //***** Цвет даты
-  lbDate.Font.Color:=fmConfig.dlgDateColor.Color;
-
-  //***** Скорректируем позиции даты и времени
-  //adjustDateAndTimePosition;
+  lbDate.Font.Color := fmConfig.dlgDateColor.Color;
 end;
 
 
@@ -719,13 +648,13 @@ begin
   if sbClose.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroCloseGlyph)) then
   begin
 
-    sbClose.Glyph.LoadFromFile(getAPPFolder()+msMicroBtnPath+msMicroCloseGlyph);
+    sbClose.Glyph.LoadFromFile(getAPPFolder() + msMicroBtnPath + msMicroCloseGlyph);
   end;
 
   if sbMinimize.Glyph.IsFileExtensionSupported(ExtractFileExt(msMicroMinimizeGlyph)) then
   begin
 
-    sbMinimize.Glyph.LoadFromFile(getAPPFolder()+msMicroBtnPath+msMicroMinimizeGlyph);
+    sbMinimize.Glyph.LoadFromFile(getAPPFolder() + msMicroBtnPath + msMicroMinimizeGlyph);
   end;
 end;
 
@@ -733,57 +662,40 @@ end;
 procedure TfmMain.getDateAndTimeDefaultPosition();
 begin
 
-  miNormalDateLeft:=lbDate.Left;
-  miNormalTimeWidth:=lbTime.Width;
+  miNormalDateLeft := lbDate.Left;
+  miNormalTimeWidth := lbTime.Width;
 end;
 
-(*
-procedure TfmMain.adjustDateAndTimePosition();
-begin
-
-  if lbTime.Visible then
-  begin
-
-    lbTime.Width:=miNormalTimeWidth;
-    lbDate.Left:=miNormalDateLeft;
-  end else
-  begin
-
-    lbTime.Width:=1;
-    lbDate.Left:=ciNoTimeDateLeft;
-  end;
-end;
-*)
 
 procedure TfmMain.askSystemDateAndTime();
 var ldtNow : TDateTime;
 begin
 
-  ldtNow:=Now;
-  DecodeTime(ldtNow,mwClockHours,mwClockMinutes,mwClockSeconds,mwClockMSeconds);
-  DecodeDate(ldtNow,mwClockYear,mwClockMonth,mwClockDay);
-  mwClockWeekDay:=DayOfTheWeek(ldtNow);
+  ldtNow := Now;
+  DecodeTime(ldtNow, mwClockHours, mwClockMinutes, mwClockSeconds, mwClockMSeconds);
+  DecodeDate(ldtNow, mwClockYear, mwClockMonth, mwClockDay);
+  mwClockWeekDay := DayOfTheWeek(ldtNow);
 end;
 
 
 procedure TfmMain.displayDate();
 begin
 
-  msClockDateHint:=AlignRight(IntToStr(mwClockDay),2,'0')+' '+
-                  masMonths[mwClockMonth]+' '+
-                  IntToStr(mwClockYear) + ', '+
+  msClockDateHint := AlignRight(IntToStr(mwClockDay),2,'0') + ' ' +
+                  masMonths[mwClockMonth] + ' ' +
+                  IntToStr(mwClockYear) + ', ' +
                   casWeekDaysArray[DayOfTheWeek(Now)];
-  lbDate.Caption:=msClockDateHint;
+  lbDate.Caption := msClockDateHint;
 end;
 
 
 procedure TfmMain.displayTime();
 begin
 
-  msClockTimeHint:=IntToStr(mwClockHours)+':'+
-                   AlignRight(IntToStr(mwClockMinutes),2,'0')+':'+
+  msClockTimeHint := IntToStr(mwClockHours) + ':' +
+                   AlignRight(IntToStr(mwClockMinutes),2,'0') + ':' +
                    AlignRight(IntToStr(mwClockSeconds),2,'0');
-  lbTime.Caption:=msClockTimeHint;
+  lbTime.Caption := msClockTimeHint;
 end;
 
 {
