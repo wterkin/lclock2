@@ -124,7 +124,7 @@ const
                                           'октября', 'ноября', 'декабря');
          casWeekDaysArray : Array[1..7] of String = ('пн','вт','ср','чт',
                                                      'пт','сб','вс');
-         csTitle           = 'LClock ver. 2.03';
+         csTitle           = 'LClock ver. 2.04';
 var
   fmMain: TfmMain;
 
